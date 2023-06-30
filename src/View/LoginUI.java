@@ -110,8 +110,10 @@ public class LoginUI extends JFrame implements ActionListener{
             @Override
             public void windowClosing(WindowEvent e) {
             	
-            	
+            	maingui = new MainGUI();
             	maingui.setVisible(true);
+            	
+            	
             }
         });
 		

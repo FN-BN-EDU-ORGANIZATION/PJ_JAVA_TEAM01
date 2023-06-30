@@ -112,7 +112,9 @@ public class JoinUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btn1) {
 			System.out.println("BACK_BTN");
-			mainGUI.setVisible(true);
+			this.loginUI = new LoginUI();
+			this.loginUI.setVisible(true);
+			loginUI.setVisible(true);
 			this.setVisible(false);
 		}else if(e.getSource()==btn2) {
 			System.out.println("JOIN_BTN");
