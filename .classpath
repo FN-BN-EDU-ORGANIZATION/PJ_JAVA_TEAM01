@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-17">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/고양이폴더/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpclient5-5.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpclient5-cache-5.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpcore5-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpcore5-h2-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/jackson-annotations-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/jackson-core-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/jackson-databind-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/nv-i18n-1.29.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/slf4j-api-2.0.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/spotify-web-api-java-8.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
