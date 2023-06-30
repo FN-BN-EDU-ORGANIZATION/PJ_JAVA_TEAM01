@@ -113,7 +113,7 @@ public class MainGUI extends JFrame implements ActionListener  {
 		txt.addFocusListener(new FocusListener() {
 		@Override
 		public void focusGained(FocusEvent e) {
-		   if (txt.getText().equals("Search Keyword를 입력하세요.")) {
+		   if (txt.getText().equals("Search Keyword를 입력하세요!")) {
 		       txt.setText("");
 		       }
 		    }
