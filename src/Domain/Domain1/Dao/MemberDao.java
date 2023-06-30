@@ -1,4 +1,4 @@
-package Domain.Domain1.Dao;
+package src.Domain.Domain1.Dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import Domain.Domain1.Dto.MemberDto;
+import src.Domain.Domain1.Dto.MemberDto;
 
 public class MemberDao {
 	private String id;

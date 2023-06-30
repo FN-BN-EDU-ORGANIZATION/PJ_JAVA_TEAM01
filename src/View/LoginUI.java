@@ -1,4 +1,4 @@
-package View;
+package src.View;
 
 import java.awt.Label;
 import java.awt.event.ActionEvent;

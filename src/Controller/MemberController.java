@@ -1,11 +1,11 @@
-package Controller;
+package src.Controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Domain.Domain1.Dto.MemberDto;
-import Domain.Domain1.Service.MemberService;
+import src.Domain.Domain1.Dto.MemberDto;
+import src.Domain.Domain1.Service.MemberService;
 
 public class MemberController {
 private MemberService service;

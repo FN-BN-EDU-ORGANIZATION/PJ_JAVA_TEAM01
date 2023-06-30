@@ -1,14 +1,13 @@
-package Domain.Domain1.Service;
+package src.Domain.Domain1.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import Domain.Domain1.Dao.MemberDao;
-import Domain.Domain1.Dto.MemberDto;
-import Domain.Domain1.Service.Auth.Session;
-import Domain.Domain1.Service.MemberService;
+import src.Domain.Domain1.Dao.MemberDao;
+import src.Domain.Domain1.Dto.MemberDto;
+import src.Domain.Domain1.Service.Auth.Session;
 
 
 public class MemberService {

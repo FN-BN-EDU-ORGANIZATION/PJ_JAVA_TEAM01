@@ -1,4 +1,4 @@
-package Domain.Domain3.Dto;
+package src.Domain.Domain3.Dto;
 
 public class SampldDto {
 

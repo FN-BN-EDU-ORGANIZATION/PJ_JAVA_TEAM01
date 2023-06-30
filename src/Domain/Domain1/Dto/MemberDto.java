@@ -1,4 +1,4 @@
-package Domain.Domain1.Dto;
+package src.Domain.Domain1.Dto;
 
 public class MemberDto {
 	private String id;

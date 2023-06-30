@@ -1,4 +1,4 @@
-package Toyproject;
+package src.Toyproject;
 
 import java.awt.Desktop;
 import java.awt.Graphics;

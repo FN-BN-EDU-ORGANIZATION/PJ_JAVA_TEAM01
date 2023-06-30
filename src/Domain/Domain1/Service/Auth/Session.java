@@ -1,4 +1,4 @@
-package Domain.Domain1.Service.Auth;
+package src.Domain.Domain1.Service.Auth;
 
 public class Session {
 	private String s_id;	//세션 ID
