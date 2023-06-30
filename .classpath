@@ -6,6 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-17">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -23,5 +24,8 @@
 	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/nv-i18n-1.29.jar"/>
 	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/slf4j-api-2.0.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/personal/Desktop/JAVA수업/고니/JAVA20230523/src/Ch99_Project/Spotify음악조회/spotify-web-api-java-8.0.0.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/sori2/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"/>
+>>>>>>> branch 'main' of https://github.com/FN-BN-EDU-ORGANIZATION/PJ_JAVA_TEAM01.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>
