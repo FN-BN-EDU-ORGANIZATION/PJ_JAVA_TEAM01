@@ -1,12 +1,21 @@
 package src.View;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -17,9 +26,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-public class MainGUI extends JFrame implements ActionListener  {
+public class MainGUI extends JFrame implements ActionListener {
 
 	JTable table;
 	JScrollPane tableScroll;
@@ -33,6 +46,12 @@ public class MainGUI extends JFrame implements ActionListener  {
 	//
 	LoginUI loginUI;
 	
+	//테이블 열이름
+	String[] columnNames = {"TITLE", "ARTIST", "URL"};
+			
+	//테이블 모델
+	DefaultTableModel model = new DefaultTableModel(columnNames,0);
+	
 	MainGUI() {
 
 		super("MAIN MENU");
@@ -42,32 +61,6 @@ public class MainGUI extends JFrame implements ActionListener  {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 
-		//배경이미지 설정
-		 try {
-	            String imagePath = "C:\\Users\\sori2\\OneDrive\\바탕 화면\\back.png";
-	            File imageFile = new File(imagePath);
-
-	            if (imageFile.exists()) {
-	                BufferedImage image = ImageIO.read(imageFile);
-	                if (image != null) {
-	                    backgroundImage = new ImageIcon(image);
-	                } else {
-	                    // 이미지를 로드할 수 없는 경우 처리
-	                }
-	            } else {
-	                // 파일이 존재하지 않는 경우 처리
-	            }
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		
-		
-		//테이블 열이름
-		String[] columnNames = {"TITLE", "ARTIST", "URL"};
-		// 테이블 데이터 x 
-		//테이블 모델
-		DefaultTableModel model = new DefaultTableModel(columnNames,0);
-		
 		
 		// 컴포넌트
 		table = new JTable(model);
@@ -127,49 +120,96 @@ public class MainGUI extends JFrame implements ActionListener  {
 		});
 		
 		
-		
 	}
 	
 	
 	
-	
-	
-	
+	private void searchTracks() {
+        try {
+            String apiKey = "354ad741231e3c7ae853e84460461072";
+            String encodedTrack = URLEncoder.encode(txt.getText(), "UTF-8");
+
+            String apiUrl = "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + encodedTrack
+                    + "&limit=300&api_key=" + apiKey + "&format=json";
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(apiUrl)).build();
+
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode root = objectMapper.readTree(responseBody);
+            JsonNode trackMatches = root.path("results").path("trackmatches").path("track");
+
+            model.setColumnCount(0);
+            model.setRowCount(0);
+
+            model.addColumn("TITLE");
+            model.addColumn("ARTIST");
+            model.addColumn("URL");
+
+            for (JsonNode trackNode : trackMatches) {
+                String name = trackNode.path("name").asText();
+                String artist = trackNode.path("artist").asText();
+                String url = trackNode.path("url").asText();
+
+                Object[] rowData = { name, artist, url };
+                model.addRow(rowData);
+                
+                TableColumnModel columnModel = table.getColumnModel();
+                columnModel.getColumn(0).setPreferredWidth(100);
+                columnModel.getColumn(1).setPreferredWidth(100);
+                columnModel.getColumn(2).setPreferredWidth(400);
+                
+            }
+
+            // 타이틀 클릭 시 URL로 이동하는 기능 추가
+            table.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    int row = table.rowAtPoint(evt.getPoint());
+                    int col = table.columnAtPoint(evt.getPoint());
+                    if (col == 0) { // Title column 클릭 시
+                        String url = (String) table.getValueAt(row, 2);
+                        if (url != null && !url.isEmpty()) {
+                            openWebpage(url);
+                        }
+                    }
+                }
+            });
+        } catch (IOException | InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // URL로 이동하는 메소드
+    private void openWebpage(String url) {
+        try {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI(url));
+            }
+        } catch (IOException | URISyntaxException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource()==btn1) {
+		if(e.getSource()==btn1) { //로그인화면
 			System.out.println("BTN1 CLICK ");
 			loginUI.setVisible(true);
 			this.setVisible(false);
-		}else if(e.getSource()==btn2) {
+		}else if(e.getSource()==btn2) { //QnA화면
 			System.out.println("BTN2 CLICK ");
-		}else if(e.getSource()==btn3) {
+		}else if(e.getSource()==btn3) { //검색
 			System.out.println("BTN3 CLICK ");
-			
-			loginUI.setVisible(true);
-			this.setVisible(false);
+			searchTracks();
+
 		}
 		
 	}
-	
-	
-//	// 배경
-//	@Override
-//	public void paint(Graphics g) {
-//		super.paint(g);
-//		if(backgroundImage !=null) {
-//			// 배경화면 그리기
-//			g.drawImage(backgroundImage.getImage(), 0, 0, null);
-//		}
-//	}
-//	
-//	@Override
-//	public void paintComponents(Graphics g) {
-//		super.paintComponents(g);
-//		// 배경화면 그리기
-//		g.drawImage(backgroundImage.getImage(), 0,0, null);
-//	}
-	
+
 	
 }

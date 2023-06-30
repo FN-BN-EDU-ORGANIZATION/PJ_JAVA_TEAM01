@@ -6,18 +6,17 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/gson-2.10.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpclient5-5.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpclient5-cache-5.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpcore5-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/httpcore5-h2-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/jackson-annotations-2.14.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/jackson-core-2.14.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/jackson-databind-2.14.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/nv-i18n-1.29.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/slf4j-api-2.0.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/OneDrive/Desktop/자바 폴더/JAVA20230523/JAVA20230523/src/Ch99_Project/Spotify음악조회/spotify-web-api-java-8.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/Downloads/commons-lang3-3.12.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ChiYeon/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/httpclient5-5.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/httpclient5-cache-5.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/httpcore5-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/httpcore5-h2-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/jackson-annotations-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/jackson-core-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/jackson-databind-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/nv-i18n-1.29.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/slf4j-api-2.0.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/OneDrive/바탕 화면/SpotifyExLib/spotify-web-api-java-8.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sori2/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

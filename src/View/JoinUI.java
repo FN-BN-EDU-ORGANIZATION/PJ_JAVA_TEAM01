@@ -99,9 +99,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		setVisible(true);
 		setResizable(false);
 		
-		//LoginUI
-//		loginUI = new LoginUI();
-//		loginUI.setVisible(false);
+	
 		
 	}
 	
