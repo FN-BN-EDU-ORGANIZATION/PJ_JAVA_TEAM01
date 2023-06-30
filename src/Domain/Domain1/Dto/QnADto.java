@@ -1,8 +1,6 @@
 package Domain.Domain1.Dto;
 
-
-import java.util.Date;
-
+import java.sql.Date;
 
 public class QnADto {
 	private int no;			//Auto_Increment

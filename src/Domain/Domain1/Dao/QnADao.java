@@ -1,11 +1,12 @@
 package Domain.Domain1.Dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
+ 
 import java.util.List;
 
 import Domain.Domain1.Dto.QnADto;
@@ -95,8 +96,6 @@ public class QnADao {
 			rs.next();
 			dto=new QnADto();
 			
-			
-			
 			pstmt.setInt(1, dto.getNo());
 			pstmt.setString(2, dto.getId());
 			pstmt.setDate(3, dto.getQnadate());
@@ -123,7 +122,7 @@ public class QnADao {
 		pstmt=conn.prepareStatement("update tbl_qna set no=?,qnadate=?,contents=?, title =? where id=?");
 		pstmt.setInt(1, dto.getNo());
 		pstmt.setString(2, dto.getId());
-		pstmt.setDate(3,dto.getQnadate());
+		pstmt.setDate(3, dto.getQnadate());
 		pstmt.setString(4, dto.getContents());
 		pstmt.setString(4, dto.getTitle());
 		int result=pstmt.executeUpdate();
