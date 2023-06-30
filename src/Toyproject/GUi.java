@@ -68,7 +68,7 @@ class GUI extends JFrame implements ActionListener, KeyListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-                       
+           //hi            
         // Components
         searchButton = new JButton("검색"); 
         searchField = new JTextField();
