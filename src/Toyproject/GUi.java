@@ -70,7 +70,7 @@ class GUI extends JFrame implements ActionListener, KeyListener {
         }
                        
         // Components
-        searchButton = new JButton("검색");
+        searchButton = new JButton("검색"); 
         searchField = new JTextField();
         model = new DefaultTableModel();
         table = new JTable(model);
