@@ -3,10 +3,17 @@ package src.View;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -14,8 +21,8 @@ public class JoinUI extends JFrame implements ActionListener{
 
 	JTable table;
 	JTextField txt1; //아이디
-	JTextField txt2; //비밀번호
-	JTextField txt3; //비밀번호확인
+	JPasswordField txt2; //비밀번호
+	JPasswordField txt3; //비밀번호확인
 	JTextField txt4; //이름
 	JTextField txt5; //주소
 	JTextField txt6; //핸드폰번호
@@ -28,9 +35,21 @@ public class JoinUI extends JFrame implements ActionListener{
 	Label L_txt5;
 	Label L_txt6;
 	
+	JFrame Frm_join;
+	
 	LoginUI loginUI;
 	MainGUI mainGUI;
 	
+	
+	// DB연결정보 저장용 변수
+	String id = "root";
+	String pw = "1234";
+	String url = "jdbc:mysql://localhost:3306/musicdb";
+
+		// JDBC참조변수
+	Connection conn = null; // DB연결용 참조변수
+	PreparedStatement pstmt = null; // SQL쿼리 전송용 참조변수
+	ResultSet rs = null; // SQL쿼리 결과(SELECT결과) 수신용 참조변수
 	
 	
 	JoinUI(){
@@ -43,8 +62,8 @@ public class JoinUI extends JFrame implements ActionListener{
 		
 		//
 		txt1 = new JTextField();
-		txt2 = new JTextField();
-		txt3 = new JTextField();
+		txt2 = new JPasswordField();
+		txt3 = new JPasswordField();
 		txt4 = new JTextField();
 		txt5 = new JTextField();
 		txt6 = new JTextField();
@@ -116,6 +135,33 @@ public class JoinUI extends JFrame implements ActionListener{
 			this.setVisible(false);
 		}else if(e.getSource()==btn2) {
 			System.out.println("JOIN_BTN");
+			//DB에 INSERT
+			try {
+				conn=DriverManager.getConnection(url,id,pw);
+				pstmt = conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,null)");
+				pstmt.setString(1, txt1.getText());
+				pstmt.setString(2, txt2.getText());
+				pstmt.setString(3, txt4.getText());
+				pstmt.setString(4, txt5.getText());
+				pstmt.setString(5, txt6.getText());
+				int result=pstmt.executeUpdate();
+				if(result>0) {
+					System.out.println("INSERT성공");
+					JOptionPane.showMessageDialog(null,"회원가입이 완료되었습니다!", "JOIN success!",JOptionPane.INFORMATION_MESSAGE);
+					this.Frm_join = new JFrame();
+					Frm_join.setVisible(false);
+					this.setVisible(false);
+					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					loginUI = new LoginUI();
+					loginUI.setVisible(true);
+				}else {
+					System.out.println("INSERT실패");
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}
@@ -125,3 +171,4 @@ public class JoinUI extends JFrame implements ActionListener{
 //	}
 	
 }
+
