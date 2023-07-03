@@ -23,7 +23,7 @@ public class MemberService {
 				instance = new MemberService();
 			return instance;
 		}
-		private MemberService() {
+		public MemberService() {
 			dao = MemberDao.getInstance();
 			sessionMap = new HashMap();
 		}

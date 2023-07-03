@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import src.Domain.Domain1.Dao.MemberDao;
+import src.Domain.Domain1.Service.MemberService;
+import src.Domain.Domain1.Service.Auth.Session;
 
 
 public class LoginUI extends JFrame implements ActionListener{
@@ -104,8 +106,6 @@ public class LoginUI extends JFrame implements ActionListener{
 		
 		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // 드라이브 적재
-			System.out.println("Driver Loading Success..");
 			conn = DriverManager.getConnection(url, id, pw);
 			System.out.println("DB Connected..");
 		} catch (Exception e) {
@@ -130,14 +130,11 @@ public class LoginUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==login_btn) {
 			System.out.println("LOGIN_BTN");
-			//로그인 체크
+			MemberService service = new MemberService();
+			Map<String, Object> sid;
 			try {
-				pstmt = conn.prepareStatement("select * from tbl_member where id = ? and pw = ?");
-				pstmt.setString(1, id_txt.getText());
-				pstmt.setString(2, pw_txt.getText());
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
+				sid = service.login(id_txt.getText(), pw_txt.getText());
+				if(sid!=null) {
 					JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
 					this.Frm_login = new JFrame();
 					Frm_login.setVisible(false);
@@ -148,11 +145,10 @@ public class LoginUI extends JFrame implements ActionListener{
 					this.Frm_login = new JFrame();
 					Frm_login.setVisible(false);
 				}
-			} catch (SQLException e1) {
+			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			 
 	}
 		else if(e.getSource()==join_btn) {
 			System.out.println("JOIN_BTN");

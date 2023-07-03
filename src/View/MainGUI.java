@@ -41,7 +41,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	JButton btn2; //게시판
 	JButton btn3; //검색버튼
 	
-	ImageIcon backgroundImage;
 	
 	//
 	LoginUI loginUI;
