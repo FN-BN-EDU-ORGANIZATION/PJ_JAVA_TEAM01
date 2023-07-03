@@ -2,14 +2,6 @@ package src.Controller;
 
 import java.util.HashMap;
 import java.util.Map;
-<<<<<<< HEAD
-=======
-
-public class FrontController {
->>>>>>> branch 'ycy' of https://github.com/FN-BN-EDU-ORGANIZATION/PJ_JAVA_TEAM01.git
-
-<<<<<<< HEAD
-import src.Controller.MusicController;
 
 public class FrontController {
 	
@@ -42,21 +34,6 @@ public class FrontController {
 			MusicController down = (MusicController)controller;
 			down.searchTracks("검색어");
 		}
-=======
-	private Map<String,Object> map = new HashMap();
-	
-	
-	void init() {
-		map.put("/member", new MemberController());
-		map.put("/music", new MusicController());
-		map.put("/qna", new QnAController());
-		
-	}
-	
-	Map<String,Object> execute(String uri,int ServiceNo , Map<String,Object>param)
-	{
-		
->>>>>>> branch 'ycy' of https://github.com/FN-BN-EDU-ORGANIZATION/PJ_JAVA_TEAM01.git
 		
 		
 		return param;
