@@ -75,6 +75,7 @@ public class QnA extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == deleteButton) {
             // 글 삭제 버튼 동작
+        	
             String selectedTitle = (String) titleComboBox.getSelectedItem();
             if (selectedTitle != null) {
                 int choice = JOptionPane.showConfirmDialog(this, "글을 삭제하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
