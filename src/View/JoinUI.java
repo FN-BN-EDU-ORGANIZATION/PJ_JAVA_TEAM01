@@ -147,7 +147,7 @@ public class JoinUI extends JFrame implements ActionListener{
 				int result=pstmt.executeUpdate();
 				if(result>0) {
 					System.out.println("INSERT성공");
-					JOptionPane.showMessageDialog(null,"회원가입이 완료되었습니다!", "JOIN success!",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,"회원가입이 완료되었습니다!!", "JOIN success!",JOptionPane.INFORMATION_MESSAGE);
 					this.Frm_join = new JFrame();
 					Frm_join.setVisible(false);
 					this.setVisible(false);
