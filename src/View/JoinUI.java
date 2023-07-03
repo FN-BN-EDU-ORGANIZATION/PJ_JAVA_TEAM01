@@ -17,6 +17,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import src.Domain.Domain1.Dao.MemberDao;
+import src.Domain.Domain1.Dto.MemberDto;
+
 public class JoinUI extends JFrame implements ActionListener{
 
 	JTable table;
@@ -28,6 +31,7 @@ public class JoinUI extends JFrame implements ActionListener{
 	JTextField txt6; //핸드폰번호
 	JButton btn1; //가입버튼
 	JButton btn2; //뒤로가기버튼(로그인화면출력)
+	JButton btn3; //id 중복확인
 	Label L_txt1; 
 	Label L_txt2;
 	Label L_txt3;
@@ -69,6 +73,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		txt6 = new JTextField();
 		btn1 = new JButton("돌아가기");
 		btn2 = new JButton("회원가입");
+		btn3 = new JButton("확인");
 		L_txt1 = new Label("ID");
 		L_txt2 = new Label("PW");
 		L_txt3 = new Label("PW Check");
@@ -77,7 +82,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		L_txt6 = new Label("PHONE");
 		
 		//
-		txt1.setBounds(120,10,230,30);
+		txt1.setBounds(120,10,150,30);
 		txt2.setBounds(120,50,230,30);
 		txt3.setBounds(120,90,230,30);
 		txt4.setBounds(120,130,230,30);
@@ -85,6 +90,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		txt6.setBounds(120,210,230,30);
 		btn1.setBounds(30,270,100,40);//뒤로
 		btn2.setBounds(250,270,100,40);//가입
+		btn3.setBounds(275,10,75,30);
 		L_txt1.setBounds(50,10,60,30);
 		L_txt2.setBounds(45,50,60,30);
 		L_txt3.setBounds(30,90,60,30);
@@ -95,6 +101,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		//EVENT
 		btn1.addActionListener(this);
 		btn2.addActionListener(this);
+		btn3.addActionListener(this);
 		
 		//컴포넌트 패널에 추가
 		panel.add(txt1);
@@ -105,6 +112,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		panel.add(txt6);
 		panel.add(btn1);
 		panel.add(btn2);
+		panel.add(btn3);
 		panel.add(L_txt1);
 		panel.add(L_txt2);
 		panel.add(L_txt3);
@@ -158,6 +166,24 @@ public class JoinUI extends JFrame implements ActionListener{
 					System.out.println("INSERT실패");
 				}
 				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}else if(e.getSource()==btn3) {
+//			System.out.println("Duplicate");
+			try {
+				conn=DriverManager.getConnection(url,id,pw);
+				pstmt = conn.prepareStatement("select * from tbl_member where id=?");
+				pstmt.setString(1, txt1.getText());
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					JOptionPane.showMessageDialog(null,"이미 존재하는 아이디입니다..", "Duplicate",JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null,"사용가능한 아이디입니다!", "Useful",JOptionPane.INFORMATION_MESSAGE);
+				}
+				pstmt.close();
+				rs.close();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

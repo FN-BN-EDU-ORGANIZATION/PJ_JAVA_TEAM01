@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import src.Domain.Domain1.Dao.MemberDao;
+
 
 public class LoginUI extends JFrame implements ActionListener{
 
@@ -89,6 +91,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		
 		
 		//joinUI
 		joinUI = new JoinUI();
