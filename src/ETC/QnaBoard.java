@@ -20,7 +20,7 @@ public class QnaBoard extends JFrame {
 
         // 질문 목록
         questionListModel = new DefaultListModel<>();
-        questionListModel.addElement("질문 1");
+        questionListModel.addElement("question 1");
         questionListModel.addElement("질문 2");
         questionListModel.addElement("질문 3");
         questionListModel.addElement("질문 4");
