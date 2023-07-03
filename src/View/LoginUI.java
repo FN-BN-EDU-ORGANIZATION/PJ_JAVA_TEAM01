@@ -129,6 +129,7 @@ public class LoginUI extends JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
 				this.Frm_login = new JFrame();
 				Frm_login.setVisible(false);
+				maingui = new MainGUI();
 				maingui.setVisible(true);
 			} else{
 				JOptionPane.showMessageDialog(null,"로그인에 실패했습니다..", "LogIn",JOptionPane.ERROR_MESSAGE);	
