@@ -34,14 +34,14 @@ public class MemberService {
 				return true;
 			return false;
 		}
-		//회원 조회하기(전체조회) - 사서
+		//회원 조회하기(전체조회) - 관리자
 		public List<MemberDto> memberSearch(String sid) throws Exception{
 			String role = this.getRole(sid);
 			if(role.equals("ROLE_MANAGER")) 
 				return dao.select();			
 			return null;
 		}
-		//회원 조회하기(한명) - 사서
+		//회원 조회하기(한명) - 관리자
 		public MemberDto memberSearchOne(String role, String id) throws Exception{
 			if(role.equals("ROLE_MANAGER")) 
 				return dao.select(id);			
