@@ -22,11 +22,19 @@ import javax.swing.table.TableColumnModel;
 import src.Controller.FrontController;
 import src.Controller.MusicController;
 
+import src.Controller.FrontController;
+
 
 public class MainGUI extends JFrame implements ActionListener, KeyListener {
 
+<<<<<<< HEAD
 	private FrontController controller;
 	private MusicController musicController;
+=======
+	
+	FrontController controller = new FrontController();
+	
+>>>>>>> branch 'ycy' of https://github.com/FN-BN-EDU-ORGANIZATION/PJ_JAVA_TEAM01.git
 	
 	JTable table;
 	JScrollPane tableScroll;

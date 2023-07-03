@@ -1,5 +1,6 @@
 package src.Controller;
 
+<<<<<<< HEAD
 import javax.swing.table.DefaultTableModel;
 
 import src.Domain.Domain1.Service.MusicService;
@@ -25,3 +26,8 @@ public class MusicController {
 		return musicService.getTableModel();
 	}
 }
+=======
+public class MusicController {
+
+}
+>>>>>>> branch 'ycy' of https://github.com/FN-BN-EDU-ORGANIZATION/PJ_JAVA_TEAM01.git
