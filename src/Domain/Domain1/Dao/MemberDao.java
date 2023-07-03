@@ -24,7 +24,7 @@ public class MemberDao {
 			instance = new MemberDao();
 		return instance;
 	}
-	private MemberDao(){
+	public MemberDao(){
 		id = "root";
 		pw = "1234";
 		url = "jdbc:mysql://localhost:3306/musicdb";
