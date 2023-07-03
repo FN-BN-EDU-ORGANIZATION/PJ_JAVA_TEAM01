@@ -1,29 +1,28 @@
 package src.ETC;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
-public class BulletinBoard extends JFrame {
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class AdminBulletinBoard<Post> extends JFrame {
     private List<Post> posts;
     private JTextField titleTextField;
     private JTextArea contentTextArea;
     private DefaultListModel<String> postListModel;
     private JList<String> postList;
 
-    public BulletinBoard() {
+    public AdminBulletinBoard() {
         // 게시글 목록 초기화
         posts = new ArrayList<>();
 
         // 윈도우 설정
-        setTitle("Bulletin Board");
+        setTitle("Admin Bulletin Board");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(400, 400);
         setLocationRelativeTo(null);
 
         // 제목 입력 필드
@@ -48,8 +47,8 @@ public class BulletinBoard extends JFrame {
                     postListModel.addElement(post.getTitle());
                     titleTextField.setText("");
                     contentTextArea.setText("");
-                }
-            }
+                
+                
         });
 
         // 게시글 목록
@@ -62,57 +61,37 @@ public class BulletinBoard extends JFrame {
             int selectedIndex = postList.getSelectedIndex();
             if (selectedIndex != -1) {
                 Post selectedPost = posts.get(selectedIndex);
-                JOptionPane.showMessageDialog(BulletinBoard.this, selectedPost.getContent(), "Post", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(AdminBulletinBoard.this, selectedPost.getContent(), "Post", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
-        // 레이아웃 설정
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(2, 2));
-        inputPanel.add(titleLabel);
-        inputPanel.add(titleTextField);
-        inputPanel.add(contentLabel);
-        inputPanel.add(contentScrollPane);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(postButton);
-
-        setLayout(new BorderLayout());
-        add(inputPanel, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.CENTER);
-        add(postScrollPane, BorderLayout.SOUTH);
-    }
-
-    private class Post {
-        private String title;
-        private String content;
-
-        public Post(String title, String content) {
-            this.title = title;
-            this.content = content;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getContent() {
-            return content;
-        }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
+        // 게시글 수정 버튼
+        JButton editButton = new JButton("Edit");
+        editButton.addActionListener(new ActionListener() {
             @Override
-            public void run() {
-                BulletinBoard bulletinBoard = new BulletinBoard();
-                bulletinBoard.setVisible(true);
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = postList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    Post selectedPost = posts.get(selectedIndex);
+                    String newTitle = JOptionPane.showInputDialog(AdminBulletinBoard.this, "Enter new title:", selectedPost.getTitle());
+                    String newContent = JOptionPane.showInputDialog(AdminBulletinBoard.this, "Enter new content:", selectedPost.getContent());
+                    if (newTitle != null && newContent != null) {
+                        selectedPost.setTitle(newTitle);
+                        selectedPost.setContent(newContent);
+                        postListModel.set(selectedIndex, newTitle);
+                    }
+                }
             }
         });
-    }
 
-	public void setBorder(TitledBorder createTitledBorder) {
-		// TODO Auto-generated method stub
-		
-	}
-}
+        // 게시글 삭제 버튼
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = postList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    posts.remove(selectedIndex);
+                    postListModel.remove(selectedIndex);
+                } ); 
+            
