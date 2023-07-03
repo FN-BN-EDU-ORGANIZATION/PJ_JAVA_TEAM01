@@ -158,7 +158,6 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 			String searchText = txt.getText();
             musicController.searchTracks(searchText);
             updateTable(musicController.getTableModel());
-            
 		}
 		
 	}
