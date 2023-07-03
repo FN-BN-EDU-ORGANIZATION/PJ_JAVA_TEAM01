@@ -28,9 +28,15 @@ import javax.swing.table.TableColumnModel;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import src.Controller.FrontController;
+
 
 public class MainGUI extends JFrame implements ActionListener, KeyListener {
 
+	
+	FrontController controller = new FrontController();
+	
+	
 	JTable table;
 	JScrollPane tableScroll;
 	JTextField txt; //검색버튼
