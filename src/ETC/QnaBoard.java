@@ -21,9 +21,9 @@ public class QnaBoard extends JFrame {
         // 질문 목록
         questionListModel = new DefaultListModel<>();
         questionListModel.addElement("question 1");
-        questionListModel.addElement("질문 2");
-        questionListModel.addElement("질문 3");
-        questionListModel.addElement("질문 4");
+        questionListModel.addElement("question 2");
+        questionListModel.addElement("question 3");
+        questionListModel.addElement("question 4");
 
         questionList = new JList<>(questionListModel);
         JScrollPane questionScrollPane = new JScrollPane(questionList);

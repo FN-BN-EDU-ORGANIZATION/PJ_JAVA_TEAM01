@@ -7,8 +7,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,7 +15,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +29,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-public class MainGUI extends JFrame implements ActionListener {
+public class MainGUI extends JFrame implements ActionListener, KeyListener {
 
 	JTable table;
 	JScrollPane tableScroll;
@@ -83,6 +80,8 @@ public class MainGUI extends JFrame implements ActionListener {
 		btn1.addActionListener(this);
 		btn2.addActionListener(this);
 		btn3.addActionListener(this);
+		txt.addKeyListener(this);
+		
 		
 		// 컴포넌트를 패널에 추가
 		panel.add(txt);
@@ -119,9 +118,24 @@ public class MainGUI extends JFrame implements ActionListener {
 		    }
 		});
 		
-		
 	}
-	
+	@Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getSource() == txt) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                btn3.doClick(); // 검색 버튼을 누름
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
 	
 	
 	private void searchTracks() {
