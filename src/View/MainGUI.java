@@ -1,19 +1,13 @@
 package src.View;
 
-import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,12 +19,15 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import src.Controller.FrontController;
+import src.Controller.MusicController;
 
 
 public class MainGUI extends JFrame implements ActionListener, KeyListener {
 
+	private FrontController controller;
+	private MusicController musicController;
+	
 	JTable table;
 	JScrollPane tableScroll;
 	JTextField txt; //검색버튼
@@ -47,13 +44,18 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 	String[] columnNames = {"TITLE", "ARTIST", "URL"};
 			
 	//테이블 모델
-	DefaultTableModel model = new DefaultTableModel(columnNames,0);
+	public DefaultTableModel model = new DefaultTableModel(columnNames,0);
 	
-	MainGUI() {
+	public MainGUI() {
 
+		
+		
 		super("MAIN MENU");
 		setBounds(100, 100, 1000, 400);
-
+		
+		controller = new FrontController();
+		musicController = new MusicController();
+		
 		// 패널
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -119,6 +121,12 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 		});
 		
 	}
+	
+	public void performSearch() {
+        // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
+        Map<String, Object> param = new HashMap<>();
+        param.put("searchText", "검색어");
+    }
 	@Override
     public void keyPressed(KeyEvent e) {
         if (e.getSource() == txt) {
@@ -135,79 +143,7 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
     }
-
-	
-	
-	private void searchTracks() {
-        try {
-            String apiKey = "354ad741231e3c7ae853e84460461072";
-            String encodedTrack = URLEncoder.encode(txt.getText(), "UTF-8");
-
-            String apiUrl = "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + encodedTrack
-                    + "&limit=300&api_key=" + apiKey + "&format=json";
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(apiUrl)).build();
-
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            String responseBody = response.body();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode root = objectMapper.readTree(responseBody);
-            JsonNode trackMatches = root.path("results").path("trackmatches").path("track");
-
-            model.setColumnCount(0);
-            model.setRowCount(0);
-
-            model.addColumn("TITLE");
-            model.addColumn("ARTIST");
-            model.addColumn("URL");
-
-            for (JsonNode trackNode : trackMatches) {
-                String name = trackNode.path("name").asText();
-                String artist = trackNode.path("artist").asText();
-                String url = trackNode.path("url").asText();
-
-                Object[] rowData = { name, artist, url };
-                model.addRow(rowData);
-                
-                TableColumnModel columnModel = table.getColumnModel();
-                columnModel.getColumn(0).setPreferredWidth(100);
-                columnModel.getColumn(1).setPreferredWidth(100);
-                columnModel.getColumn(2).setPreferredWidth(400);
-                
-            }
-
-            // 타이틀 클릭 시 URL로 이동하는 기능 추가
-            table.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    int row = table.rowAtPoint(evt.getPoint());
-                    int col = table.columnAtPoint(evt.getPoint());
-                    if (col == 0) { // Title column 클릭 시
-                        String url = (String) table.getValueAt(row, 2);
-                        if (url != null && !url.isEmpty()) {
-                            openWebpage(url);
-                        }
-                    }
-                }
-            });
-        } catch (IOException | InterruptedException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    // URL로 이동하는 메소드
-    private void openWebpage(String url) {
-        try {
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(new URI(url));
-            }
-        } catch (IOException | URISyntaxException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    
+   
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -219,10 +155,21 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 			System.out.println("BTN2 CLICK ");
 		}else if(e.getSource()==btn3) { //검색
 			System.out.println("BTN3 CLICK ");
-			searchTracks();
-
+			String searchText = txt.getText();
+            musicController.searchTracks(searchText);
+            updateTable(musicController.getTableModel());
+            
 		}
 		
+	}
+	
+	// 테이블 업데이트 메소드
+	private void updateTable(DefaultTableModel tableModel) {
+	    table.setModel(tableModel);
+	    TableColumnModel columnModel = table.getColumnModel();
+	    columnModel.getColumn(0).setPreferredWidth(100);
+	    columnModel.getColumn(1).setPreferredWidth(100);
+	    columnModel.getColumn(2).setPreferredWidth(400);
 	}
 
 	
