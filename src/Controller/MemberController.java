@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import src.Domain.Domain1.Dto.MemberDto;
 import src.Domain.Domain1.Service.MemberService;
 
@@ -118,6 +120,7 @@ private MemberService service;
 				Map<String,Object> result = new HashMap();
 				result.put("result", rValue);
 				return result;
+				
 			}else if(serviceNo==5) {
 				//1 파라미터 추출
 				String id = (String)param.get("id");
@@ -128,11 +131,11 @@ private MemberService service;
 					return null;
 				}
 				//3 서비스 실행
-//				MemberDto dto = new MemberDto(id,pw,null,null);
-				Map<String,Object> result = new HashMap();
+//				MemberDto dto = new MemberDto(id,pw,null,null,null,null);
+				Map<String,Object> result = null;
 				try {
 					result = service.login(id, pw);
-				} catch (Exception e) {
+				} catch (Exception e) {	
 					e.printStackTrace();
 				}
 				

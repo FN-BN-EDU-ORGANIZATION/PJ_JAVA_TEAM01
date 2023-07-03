@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
 
 import src.Domain.Domain1.Dao.MemberDao;
 import src.Domain.Domain1.Dto.MemberDto;
+import src.Domain.Domain1.Service.MemberService;
 
 public class JoinUI extends JFrame implements ActionListener{
 
@@ -153,46 +155,59 @@ public class JoinUI extends JFrame implements ActionListener{
 		    String name = txt1.getText();
 		    String id = txt2.getText();
 		    String pw = txt4.getText();
-		    String email = txt5.getText();
+		    String addr = txt5.getText();
 		    String phone = txt6.getText();
 		    
 		    // 빈 값 체크
-		    if (name.isEmpty() || id.isEmpty() || pw.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+		    if (name.isEmpty() || id.isEmpty() || pw.isEmpty() || addr.isEmpty() || phone.isEmpty()) {
 		        JOptionPane.showMessageDialog(null, "모든 필드를 입력해주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
 		        return; // 회원 가입 중단
 		    }
-		    
-		    
-		    
-		    
-		    
-			//DB에 INSERT
-		    try {
-		        conn = DriverManager.getConnection(url, this.id, this.pw);
-		        pstmt = conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,null)");
-		        pstmt.setString(1, name);
-		        pstmt.setString(2, id);
-		        pstmt.setString(3, pw);
-		        pstmt.setString(4, email);
-		        pstmt.setString(5, phone);
-		        int result = pstmt.executeUpdate();
-		        if (result > 0) {
-		            System.out.println("INSERT 성공");
+		    //DB에 INSERT
+		    MemberService service = new MemberService();
+			boolean sid;
+			try {
+				sid = service.memberJoin(new MemberDto(name,id,pw,addr,phone,null));
+				if(sid=true) {
+					System.out.println("INSERT 성공");
 		            JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다!", "JOIN success!", JOptionPane.INFORMATION_MESSAGE);
-		            this.Frm_join = new JFrame();
-		            Frm_join.setVisible(false);
-		            this.setVisible(false);
-		            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		            loginUI = new LoginUI();
-		            loginUI.setVisible(true);
-		        } else {
-		            System.out.println("INSERT 실패");
+//		            this.Frm_join = new JFrame();
+//		            Frm_join.setVisible(false);
+//		            this.setVisible(false);
+//		            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		            loginUI = new LoginUI();
+//		            loginUI.setVisible(true);
+				}else {
+						System.out.println("INSERT 실패");
 				}
-				pstmt.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    
+//		        conn = DriverManager.getConnection(url, this.id, this.pw);
+//		        pstmt = conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,null)");
+//		        pstmt.setString(1, name);
+//		        pstmt.setString(2, id);
+//		        pstmt.setString(3, pw);
+//		        pstmt.setString(4, email);
+//		        pstmt.setString(5, phone);
+//		        int result = pstmt.executeUpdate();
+//		        if (result > 0) {
+//		            System.out.println("INSERT 성공");
+//		            JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다!", "JOIN success!", JOptionPane.INFORMATION_MESSAGE);
+//		            this.Frm_join = new JFrame();
+//		            Frm_join.setVisible(false);
+//		            this.setVisible(false);
+//		            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		            loginUI = new LoginUI();
+//		            loginUI.setVisible(true);
+//		        } else {
+//		            System.out.println("INSERT 실패");
+//				}
+//				pstmt.close();
+				
+			
 		}else if(e.getSource()==btn3) {
 //			System.out.println("Duplicate");
 			try {
