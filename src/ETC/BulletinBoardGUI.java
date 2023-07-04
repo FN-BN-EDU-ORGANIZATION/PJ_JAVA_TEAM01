@@ -152,7 +152,7 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
 		}
 		
     }
-
+//안녕하세요 
 
     
 

@@ -14,7 +14,7 @@ private MemberService service;
 	service = MemberService.getInstance();
 	}
 	//[              CRUD                 ]
-		//[1 Select 2 Insert 3 Update 4 Delete] 5 로그인 6 로그아웃
+		//[1 Select 2 Insert 3 Update 4 Delete] 5 로그인 6 로그아웃 7 중복확인
 	public Map<String,Object> execute(int serviceNo, Map<String, Object> param) {
 			
 			if(serviceNo==1) {
@@ -45,13 +45,13 @@ private MemberService service;
 				String phone = (String)param.get("phone");
 				String role = (String)param.get("role");
 				//2 입력값 검증
-				if(id==null||pw==null||name==null||role==null) {
+				if(id==null||pw==null||name==null||addr==null||phone==null) {
 					System.out.println("[ERROR] Data Validation Check Error !");
 					return null;
 				}
 				//3 서비스 실행
 				MemberDto dto = new MemberDto(id,pw,name,addr,phone,role);
-				System.out.println("Dto : " + dto);
+					System.out.println("Dto : " + dto);
 				Boolean rValue = false;
 				try {
 					rValue = service.memberJoin(dto);
@@ -118,6 +118,7 @@ private MemberService service;
 				Map<String,Object> result = new HashMap();
 				result.put("result", rValue);
 				return result;
+				
 			}else if(serviceNo==5) {
 				//1 파라미터 추출
 				String id = (String)param.get("id");
@@ -128,11 +129,11 @@ private MemberService service;
 					return null;
 				}
 				//3 서비스 실행
-//				MemberDto dto = new MemberDto(id,pw,null,null);
-				Map<String,Object> result = new HashMap();
+//				MemberDto dto = new MemberDto(id,pw,null,null,null,null);
+				Map<String,Object> result = null;
 				try {
 					result = service.login(id, pw);
-				} catch (Exception e) {
+				} catch (Exception e) {	
 					e.printStackTrace();
 				}
 				
@@ -143,7 +144,14 @@ private MemberService service;
 				//2 입력값 검증
 				//3 서비스 실행
 				//4 View로 전달			
+			}else if(serviceNo==7) { //id 중복확인
+				//1 파라미터 추출
+				//2 입력값 검증
+				//3 서비스 실행
+				//4 View로 전달	
 			}
+			
+			
 			return null;
 		}
 }
