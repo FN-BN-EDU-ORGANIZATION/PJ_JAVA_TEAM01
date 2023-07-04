@@ -6,6 +6,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ import src.Controller.FrontController;
 import src.Controller.MusicController;
 
 
-public class MainGUI extends JFrame implements ActionListener, KeyListener {
+public class MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
 
 	private FrontController controller;
@@ -86,6 +88,7 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 		btn2.addActionListener(this);
 		btn3.addActionListener(this);
 		txt.addKeyListener(this);
+		table.addMouseListener(this);
 		
 		
 		// 컴포넌트를 패널에 추가
@@ -104,6 +107,7 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 		loginUI = new LoginUI();
 		loginUI.setVisible(false);
 		loginUI.setMainGUI(this);
+		
 		
 
 		//검색창 클릭 시 기본문구 없어지게 하기
@@ -127,8 +131,9 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 	
 	public void performSearch() {
         // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
-        Map<String, Object> param = new HashMap<>();
-        param.put("searchText", "검색어");
+		String searchText = txt.getText();
+        musicController.searchTracks(searchText);
+        updateTable(musicController.getTableModel());
     }
 	@Override
     public void keyPressed(KeyEvent e) {
@@ -146,7 +151,20 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
     }
-   
+    
+    @Override
+	public void mouseClicked(MouseEvent e) {
+    	if (e.getSource() == table && e.getClickCount() == 1) {
+            int row = table.getSelectedRow();
+            int column = table.getSelectedColumn();
+
+            // URL 주소 열 클릭 시 URL 주소 열기
+         
+                String url = (String) table.getValueAt(row, 2);
+                musicController.openWebpage(url);
+            }
+	}
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -158,9 +176,10 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 			System.out.println("BTN2 CLICK ");
 		}else if(e.getSource()==btn3) { //검색
 			System.out.println("BTN3 CLICK ");
-			String searchText = txt.getText();
-            musicController.searchTracks(searchText);
-            updateTable(musicController.getTableModel());
+//			String searchText = txt.getText();
+//            musicController.searchTracks(searchText);
+//            updateTable(musicController.getTableModel());
+			performSearch();
 		}
 		
 	}
@@ -174,5 +193,30 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener {
 	    columnModel.getColumn(2).setPreferredWidth(400);
 	}
 
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
+
 }

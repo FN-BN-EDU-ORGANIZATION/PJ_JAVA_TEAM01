@@ -1,6 +1,8 @@
 package src.Controller;
 
 
+import java.util.Map;
+
 import javax.swing.table.DefaultTableModel;
 
 import src.Domain.Domain1.Service.MusicService;
@@ -14,6 +16,7 @@ public class MusicController {
     }
 
     public void searchTracks(String searchText) {
+        
         musicService.searchTracks(searchText);
     }
 
@@ -25,4 +28,5 @@ public class MusicController {
 		// TODO Auto-generated method stub
 		return musicService.getTableModel();
 	}
+
 }

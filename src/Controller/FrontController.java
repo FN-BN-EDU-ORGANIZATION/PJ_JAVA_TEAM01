@@ -6,7 +6,7 @@ import java.util.Map;
 public class FrontController {
 	
 	private Map<String,Object> map = new HashMap();
-	private MusicController musicController;
+//	private MusicController musicController;
 		
 	void init() {
 		map.put("/member", new MemberController());
@@ -30,9 +30,9 @@ public class FrontController {
 			result = down.execute(ServiceNo, param);	
 			System.out.println("MemberController");
 		}else if(controller instanceof MusicController) {
-			
+
 			MusicController down = (MusicController)controller;
-			down.searchTracks("검색어");
+			
 		}
 		
 		

@@ -10,14 +10,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MusicService {
 	
-    private DefaultTableModel model;
-    
+	private DefaultTableModel model;
+
     public DefaultTableModel getTableModel() {
         return model;
     }
@@ -42,7 +43,7 @@ public class MusicService {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode root = objectMapper.readTree(responseBody);
             JsonNode trackMatches = root.path("results").path("trackmatches").path("track");
-            
+
             model = new DefaultTableModel(1, 0);
 
             model.setColumnCount(0);
@@ -52,8 +53,6 @@ public class MusicService {
             model.addColumn("ARTIST");
             model.addColumn("URL");
 
-            
-            
             for (JsonNode trackNode : trackMatches) {
                 String name = trackNode.path("name").asText();
                 String artist = trackNode.path("artist").asText();
@@ -61,7 +60,7 @@ public class MusicService {
 
                 Object[] rowData = { name, artist, url };
                 model.addRow(rowData);
-                
+
             }
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
