@@ -7,5 +7,16 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/personal/Desktop/고양이폴더/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/httpclient5-5.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/httpclient5-cache-5.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/httpcore5-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/httpcore5-h2-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/jackson-annotations-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/jackson-core-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/jackson-databind-2.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/nv-i18n-1.29.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/slf4j-api-2.0.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/personal/Desktop/임뽈뜨/SpotifyExLib/spotify-web-api-java-8.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

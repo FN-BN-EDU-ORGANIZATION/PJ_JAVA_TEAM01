@@ -17,6 +17,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+
+
 public class BulletinBoardGUI extends JFrame implements ActionListener {
     private JTable table;
     private JLabel ContentLabel;  // 변경된 부분     1
@@ -28,8 +30,17 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
     private JButton editButton;
     private JButton deleteButton;
 	private JLabel TitleLabel;
-    
 
+	private Object btn2;
+
+
+	 public JLabel getContentLabel() {
+	        return ContentLabel;
+	    }
+
+	    public void setContentLabel(JLabel contentLabel) {
+	        this.ContentLabel = contentLabel;
+	    }
 
 
 
@@ -39,6 +50,7 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
         setSize(1280, 720);
 
         // 게시물 목록을 표시할 JTable
+
         tableModel = new DefaultTableModel(new Object[]{"Title", "Content"}, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -133,7 +145,10 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
                     tableModel.setValueAt(content, selectedRow, 1);
                     titleField.setText("");
                     contentField.setText("");
-                
+                    if (e.getSource() == btn2) { // QnA화면 버튼
+                        System.out.println("BTN2 CLICK ");
+                        bulletinBoardGUI.setVisible(true);
+                    }
                 }
         }
         }
@@ -143,6 +158,7 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
             BulletinBoardGUI gui = new BulletinBoardGUI();
         }
 
+        
 		public JLabel ContentLabel() {
 			return ContentLabel;
 		}
