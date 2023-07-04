@@ -1,5 +1,8 @@
 package src.Domain.Domain1.Dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MemberDto {
 	private String id;
 	private String pw;
@@ -7,6 +10,7 @@ public class MemberDto {
 	private String addr;
 	private String phone;
 	private String role;
+	private List<String> searchHistory;
 	
 	public MemberDto() {}
 
@@ -18,6 +22,7 @@ public class MemberDto {
 		this.addr = addr;
 		this.phone = phone;
 		this.role = role;
+		this.searchHistory = new ArrayList<>();
 	}
 
 	@Override
@@ -74,4 +79,11 @@ public class MemberDto {
 		this.role = role;
 	}
 	
+	public List<String> getSearchHistory(){
+		return searchHistory;
+	}
+	
+	public void addSearchHistory(String searchText) {
+		searchHistory.add(searchText);
+	}
 }

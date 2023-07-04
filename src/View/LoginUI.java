@@ -5,11 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,10 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import src.Domain.Domain1.Dao.MemberDao;
+import src.Controller.MemberController;
 
 
 public class LoginUI extends JFrame implements ActionListener{
+
+	private MemberController membercontroller;
 
 	JTextField id_txt;
 	JPasswordField pw_txt;
@@ -34,19 +33,13 @@ public class LoginUI extends JFrame implements ActionListener{
 	
 	//
 	MainGUI maingui;
+	Log_MainGUI logmaingui;
 	JoinUI joinUI;
+	
 //	MemberUI membergui;
 //	UserUI usergui;
 	
-	// DB연결정보 저장용 변수
-	String id = "root";
-	String pw = "1234";
-	String url = "jdbc:mysql://localhost:3306/musicdb";
 
-	// JDBC참조변수
-	Connection conn = null; // DB연결용 참조변수
-	PreparedStatement pstmt = null; // SQL쿼리 전송용 참조변수
-	ResultSet rs = null; // SQL쿼리 결과(SELECT결과) 수신용 참조변수
 	
 	public LoginUI(){
 		super("LOGIN");
@@ -103,15 +96,6 @@ public class LoginUI extends JFrame implements ActionListener{
 //		usergui = new UserUI();
 		
 		
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // 드라이브 적재
-			System.out.println("Driver Loading Success..");
-			conn = DriverManager.getConnection(url, id, pw);
-			System.out.println("DB Connected..");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		
 		addWindowListener(new WindowAdapter() {
             @Override
@@ -125,36 +109,33 @@ public class LoginUI extends JFrame implements ActionListener{
         });
 		
 	}
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==login_btn) {
 			System.out.println("LOGIN_BTN");
-			//로그인 체크
-			try {
-				pstmt = conn.prepareStatement("select * from tbl_member where id = ? and pw = ?");
-				pstmt.setString(1, id_txt.getText());
-				pstmt.setString(2, pw_txt.getText());
-				rs = pstmt.executeQuery();
+			String id = id_txt.getText();
+			String pw = pw_txt.getText();
+			Map<String, Object> param = new HashMap();
+			param.put("id", id);
+			param.put("pw", pw);
+			membercontroller = new MemberController();
+			Map<String, Object> result = membercontroller.execute(5,param);
+			if(result!=null) {
+				JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
+				logmaingui = new Log_MainGUI();
+				logmaingui.setVisible(true);
+				this.setVisible(false);
+				this.setUserName(id);
 				
-				if(rs.next()) {
-					JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
-					this.Frm_login = new JFrame();
-					Frm_login.setVisible(false);
-					maingui.setVisible(true);
+			} else{
+				JOptionPane.showMessageDialog(null,"로그인에 실패했습니다..", "LogIn",JOptionPane.ERROR_MESSAGE);	
+				this.Frm_login = new JFrame();
+				Frm_login.setVisible(false);
 				}
-				else{
-					JOptionPane.showMessageDialog(null,"로그인에 실패했습니다..", "LogIn",JOptionPane.ERROR_MESSAGE);
-					this.Frm_login = new JFrame();
-					Frm_login.setVisible(false);
-				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			 
-	}
-		else if(e.getSource()==join_btn) {
+		} else if(e.getSource()==join_btn) {
 			System.out.println("JOIN_BTN");
 			joinUI = new JoinUI();
 			joinUI.setVisible(true);
@@ -162,7 +143,11 @@ public class LoginUI extends JFrame implements ActionListener{
 		}
 	}
 	
-
+	public void setUserName(String username) {
+		logmaingui.label.setText(username+"님, 자유롭게 음악을 검색해보세요!");
+	}
+	
+	
 	public void setMainGUI(MainGUI maingui) {
 		this.maingui = maingui;
 //		membergui.setMainUI(maingui);

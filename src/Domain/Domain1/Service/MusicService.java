@@ -10,7 +10,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,16 +17,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MusicService {
 	
 	private DefaultTableModel model;
+	private MemberService memberService;
 
     public DefaultTableModel getTableModel() {
         return model;
     }
-
+    
     public MusicService(DefaultTableModel model) {
         this.model = model;
     }
 
-    public void searchTracks(String searchText) {
+    public MusicService(DefaultTableModel model, MemberService memberService) {
+        this.model = model;
+        this.memberService = memberService;
+    }
+
+    public void searchTracks(String searchText, String memberId) {
         try {
             String apiKey = "354ad741231e3c7ae853e84460461072";
             String encodedTrack = URLEncoder.encode(searchText, "UTF-8");
@@ -62,6 +67,9 @@ public class MusicService {
                 model.addRow(rowData);
 
             }
+            
+            // 검색 기록 추가
+            MemberService.getInstance().addSearchHistory(memberId, searchText);
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }

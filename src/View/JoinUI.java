@@ -3,11 +3,8 @@ package src.View;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,11 +14,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import src.Domain.Domain1.Dao.MemberDao;
-import src.Domain.Domain1.Dto.MemberDto;
+import src.Controller.MemberController;
 
 public class JoinUI extends JFrame implements ActionListener{
 
+	private MemberController membercontroller;
+	
 	JTable table;
 	JTextField txt1; //아이디
 	JPasswordField txt2; //비밀번호
@@ -44,16 +42,6 @@ public class JoinUI extends JFrame implements ActionListener{
 	LoginUI loginUI;
 	MainGUI mainGUI;
 	
-	
-	// DB연결정보 저장용 변수
-	String id = "root";
-	String pw = "1234";
-	String url = "jdbc:mysql://localhost:3306/musicdb";
-
-		// JDBC참조변수
-	Connection conn = null; // DB연결용 참조변수
-	PreparedStatement pstmt = null; // SQL쿼리 전송용 참조변수
-	ResultSet rs = null; // SQL쿼리 결과(SELECT결과) 수신용 참조변수
 	
 	
 	JoinUI(){
@@ -125,9 +113,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
-		
 	
-		
 	}
 	
 	
@@ -144,61 +130,58 @@ public class JoinUI extends JFrame implements ActionListener{
 		}else if(e.getSource()==btn2) {
 			System.out.println("JOIN_BTN");
 			// 입력 값 확인
-		    String name = txt1.getText();
-		    String id = txt2.getText();
-		    String pw = txt4.getText();
-		    String email = txt5.getText();
-		    String phone = txt6.getText();
-		    
+		    String id = txt1.getText();
+		    String pw = txt2.getText();
+		    String name = txt4.getText();
+		    String addr = txt5.getText();
+		    String phone = 	txt6.getText();
+		   
 		    // 빈 값 체크
-		    if (name.isEmpty() || id.isEmpty() || pw.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-		        JOptionPane.showMessageDialog(null, "모든 필드를 입력해주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
-		        return; // 회원 가입 중단
+		    if (name.isEmpty() || id.isEmpty() || pw.isEmpty() || addr.isEmpty() || phone.isEmpty()) {
+		    	JOptionPane.showMessageDialog(null, "모든 필드를 입력해주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+		    	return; // 회원 가입 중단	
 		    }
 		    
-			//DB에 INSERT
-		    try {
-		        conn = DriverManager.getConnection(url, this.id, this.pw);
-		        pstmt = conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,null)");
-		        pstmt.setString(1, name);
-		        pstmt.setString(2, id);
-		        pstmt.setString(3, pw);
-		        pstmt.setString(4, email);
-		        pstmt.setString(5, phone);
-		        int result = pstmt.executeUpdate();
-		        if (result > 0) {
-		            System.out.println("INSERT 성공");
-		            JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다!", "JOIN success!", JOptionPane.INFORMATION_MESSAGE);
-		            this.Frm_join = new JFrame();
-		            Frm_join.setVisible(false);
-		            this.setVisible(false);
-		            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		            loginUI = new LoginUI();
-		            loginUI.setVisible(true);
-		        } else {
-		            System.out.println("INSERT 실패");
-		        }
-		    } catch (SQLException ex) {
-		        ex.printStackTrace();
+		    Map<String, Object> param = new HashMap();
+		    param.put("id", id);
+		    param.put("pw", pw);
+		    param.put("name", name);
+		    param.put("addr", addr);
+		    param.put("phone", phone);
+		    membercontroller = new MemberController();
+		    Map<String, Object> result = membercontroller.execute(2, param);
+		    
+		    //DB에 INSERT
+		    if(result!=null) {
+		    	System.out.println("INSERT 성공");
+		    	JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다!", "JOIN success!", JOptionPane.INFORMATION_MESSAGE);
+		        this.Frm_join = new JFrame();
+		        Frm_join.setVisible(false);
+		        this.setVisible(false);
+		        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		        loginUI = new LoginUI();
+		        loginUI.setVisible(true);
+		    }else {
+		    	System.out.println("INSERT 실패");
 		    }
 		}else if(e.getSource()==btn3) {
-//			System.out.println("Duplicate");
-			try {
-				conn=DriverManager.getConnection(url,id,pw);
-				pstmt = conn.prepareStatement("select * from tbl_member where id=?");
-				pstmt.setString(1, txt1.getText());
-				rs = pstmt.executeQuery();
-				if(rs.next()) {
-					JOptionPane.showMessageDialog(null,"이미 존재하는 아이디입니다..", "Duplicate",JOptionPane.ERROR_MESSAGE);
-				}else {
-					JOptionPane.showMessageDialog(null,"사용가능한 아이디입니다!", "Useful",JOptionPane.INFORMATION_MESSAGE);
-				}
-				pstmt.close();
-				rs.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			System.out.println("Duplicate");
+//			try {
+//				conn=DriverManager.getConnection(url,id,pw);
+//				pstmt = conn.prepareStatement("select * from tbl_member where id=?");
+//				pstmt.setString(1, txt1.getText());
+//				rs = pstmt.executeQuery();
+//				if(rs.next()) {
+//					JOptionPane.showMessageDialog(null,"이미 존재하는 아이디입니다..", "Duplicate",JOptionPane.ERROR_MESSAGE);
+//				}else {
+//					JOptionPane.showMessageDialog(null,"사용가능한 아이디입니다!", "Useful",JOptionPane.INFORMATION_MESSAGE);
+//				}
+//				pstmt.close();
+//				rs.close();
+//			} catch (SQLException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 		}
 		
 	}
