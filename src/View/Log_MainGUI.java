@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -56,7 +58,6 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		setBounds(100, 100, 1000, 400);
 		
 		controller = new FrontController();
-		musicController = new MusicController();
 		
 		// 패널
 		JPanel panel = new JPanel();
@@ -133,12 +134,35 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		});
 		
 	}
-	
+	public void showSearchHistory() {
+	    // 검색 기록을 가져옵니다.
+	    List<String> searchHistory = controller.getSearchHistory();
+	    
+	    // 검색 기록을 보여주는 간단한 창 생성
+	    JFrame historyFrame = new JFrame("검색 기록");
+	    historyFrame.setSize(400, 300);
+	    
+	    // 검색 기록을 표시하는 JTextArea 생성
+	    JTextArea historyTextArea = new JTextArea();
+	    JScrollPane scrollPane = new JScrollPane(historyTextArea);
+	    scrollPane.setBounds(10, 10, 380, 280);
+	    
+	    // 검색 기록을 JTextArea에 추가
+	    for (String history : searchHistory) {
+	        historyTextArea.append(history + "\n");
+	    }
+	    // 컴포넌트를 창에 추가
+	    historyFrame.add(scrollPane);
+	    
+	    // 창 표시
+	    historyFrame.setVisible(true);
+	    
+	}
 	public void performSearch() {
         // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
 		String searchText = txt.getText();
-        musicController.searchTracks(searchText);
-        updateTable(musicController.getTableModel());
+        controller.searchTracks(searchText);
+        updateTable(controller.getTableModel());
     }
 	@Override
     public void keyPressed(KeyEvent e) {
@@ -184,6 +208,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 			performSearch();
 		}else if(e.getSource()==btn4) {
 			System.out.println("BTN4 CLICK ");
+			showSearchHistory();
 		}
 		
 	}

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
 
 import src.Domain.Domain1.Dto.MemberDto;
 import src.Domain.Domain1.Service.MemberService;
@@ -132,7 +131,7 @@ private MemberService service;
 				}
 				//3 서비스 실행
 //				MemberDto dto = new MemberDto(id,pw,null,null,null,null);
-				Map<String,Object> result = null;
+				Map<String,Object> result = new HashMap();
 				try {
 					result = service.login(id, pw);
 				} catch (Exception e) {	
@@ -149,16 +148,46 @@ private MemberService service;
 				
 			}else if(serviceNo==7) { //id 중복확인
 				//1 파라미터 추출
-				String id = (String)param.get("id");
+				String id = (String)param.get("id");	//3 서비스 실행
+				Boolean rValue = false;
+				
 				//2 입력값 검증
 				if(id==null) {
 					System.out.println("[ERROR] Data Validation Check Error !");
 					return null;
 				}
-				//3 서비스 실행
-				
+			
+				try {
+					rValue = service.idcheck(id);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				//4 View로 전달	
-			}
+				System.out.println("id_Check Block!");
+				Map<String,Object> result = new HashMap();
+				result.put("result", rValue);
+				return result;
+				
+			}else if (serviceNo == 8) {
+	            //1 파라미터 추출
+	            String memberId = (String) param.get("memberId");
+	            String searchText = (String) param.get("searchText");
+
+	            //2 입력값 검증
+	            if (memberId == null || searchText == null) {
+	                System.out.println("[ERROR] Data Validation Check Error !");
+	                return null;
+	            }
+
+	            //3 서비스 실행
+	            service.addSearchHistory(memberId, searchText);
+
+	            //4 View로 전달
+	            System.out.println("Add Search History Block!");
+	            Map<String, Object> result = new HashMap<>();
+	            result.put("result", "Search history added successfully");
+	            return result;
+	        }
 			
 			
 			return null;

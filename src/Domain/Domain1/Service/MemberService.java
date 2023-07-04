@@ -1,10 +1,10 @@
 package src.Domain.Domain1.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 
 import src.Domain.Domain1.Dao.MemberDao;
 import src.Domain.Domain1.Dto.MemberDto;
@@ -12,10 +12,12 @@ import src.Domain.Domain1.Service.Auth.Session;
 
 
 public class MemberService {
-	//세션정보저장
+		//세션정보저장
 		public Map<String,Session> sessionMap;
 		
 		private MemberDao dao;
+		
+		private Map<String, List<String>> memberSearchHistoryMap;
 		
 		//싱글톤
 		private static MemberService instance;
@@ -27,6 +29,7 @@ public class MemberService {
 		public MemberService() {
 			dao = MemberDao.getInstance();
 			sessionMap = new HashMap();
+			memberSearchHistoryMap = new HashMap<>();
 		}
 		//회원 가입하기
 		public boolean memberJoin(MemberDto dto) throws Exception{
@@ -94,13 +97,33 @@ public class MemberService {
 			String sid = UUID.randomUUID().toString();
 			Session session = new Session(sid,dbDto.getId(),dbDto.getRole());
 			sessionMap.put(sid, session);
-			//3 세션에 대한 정보를 클라이언트가 접근할수 있도록 하는 세션 구별ID(Session Cookie) 전달
-			Map<String,Object> result = new HashMap();
-			result.put("sid", sid);
-			result.put("role", dbDto.getRole());
-			return result;
+			
+			// 3. 검색 기록 리스트 생성 및 맵에 연결
+		    List<String> searchHistory = new ArrayList<>();
+		    memberSearchHistoryMap.put(dbDto.getId(), searchHistory);
+
+		    // 4. 세션에 대한 정보를 클라이언트가 접근할 수 있도록 하는 세션 구별 ID(Session Cookie) 전달
+		    Map<String, Object> result = new HashMap<>();
+		    result.put("sid", sid);
+		    result.put("role", dbDto.getRole());
+		    result.put("memberId", dbDto.getId());
+		    return result;
+			
 		}
 		
+		// 검색 기록 추가
+		public void addSearchHistory(String memberId, String searchText) {
+		    List<String> searchHistory = memberSearchHistoryMap.get(memberId);
+		    if (searchHistory != null) {
+		        searchHistory.add(searchText);
+		    }
+		}
+
+		// 검색 기록 조회
+		public List<String> getSearchHistory(String memberId) {
+		    return memberSearchHistoryMap.getOrDefault(memberId, new ArrayList<>());
+		}
+	    
 		//로그아웃
 		public boolean logout(String id,String sid) {
 			Session session = sessionMap.get(sid);
@@ -113,6 +136,15 @@ public class MemberService {
 		}
 		
 		//중복확인
+		public boolean idcheck(String id) throws Exception {
+			MemberDto dbDto = dao.select(id);
+			if(dbDto==null) {
+				System.out.println("[INFO] 사용가능한 아이디입니다.");
+				return true;
+			}
+			System.out.println("[ERROR] 이미 사용중인 아이디입니다.");
+			return false;
+		}
 		
 		
 		//역할반환함수

@@ -16,17 +16,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MusicService {
 	
-    private DefaultTableModel model;
-    
+	private DefaultTableModel model;
+	private MemberService memberService;
+
     public DefaultTableModel getTableModel() {
         return model;
     }
-
+    
     public MusicService(DefaultTableModel model) {
         this.model = model;
     }
 
-    public void searchTracks(String searchText) {
+    public MusicService(DefaultTableModel model, MemberService memberService) {
+        this.model = model;
+        this.memberService = memberService;
+    }
+
+    public void searchTracks(String searchText, String memberId) {
         try {
             String apiKey = "354ad741231e3c7ae853e84460461072";
             String encodedTrack = URLEncoder.encode(searchText, "UTF-8");
@@ -42,7 +48,7 @@ public class MusicService {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode root = objectMapper.readTree(responseBody);
             JsonNode trackMatches = root.path("results").path("trackmatches").path("track");
-            
+
             model = new DefaultTableModel(1, 0);
 
             model.setColumnCount(0);
@@ -52,8 +58,6 @@ public class MusicService {
             model.addColumn("ARTIST");
             model.addColumn("URL");
 
-            
-            
             for (JsonNode trackNode : trackMatches) {
                 String name = trackNode.path("name").asText();
                 String artist = trackNode.path("artist").asText();
@@ -61,8 +65,11 @@ public class MusicService {
 
                 Object[] rowData = { name, artist, url };
                 model.addRow(rowData);
-                
+
             }
+            
+            // 검색 기록 추가
+            MemberService.getInstance().addSearchHistory(memberId, searchText);
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }

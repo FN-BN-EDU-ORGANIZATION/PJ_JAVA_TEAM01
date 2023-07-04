@@ -3,11 +3,7 @@ package src.View;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.lang.ModuleLayer.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,14 +15,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import src.Controller.MemberController;
-import src.Domain.Domain1.Dto.MemberDto;
-import src.Domain.Domain1.Service.MemberService;
+import src.Controller.FrontController;
 
 public class JoinUI extends JFrame implements ActionListener{
 
-	private MemberController membercontroller;
-	
+	private FrontController controller;
+
 	JTable table;
 	JTextField txt1; //아이디
 	JPasswordField txt2; //비밀번호
@@ -120,6 +114,8 @@ public class JoinUI extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		
+		controller = new FrontController();
 	
 	}
 	
@@ -149,14 +145,14 @@ public class JoinUI extends JFrame implements ActionListener{
 		    	return; // 회원 가입 중단	
 		    }
 		    
+		    //param 받아오기
 		    Map<String, Object> param = new HashMap();
 		    param.put("id", id);
 		    param.put("pw", pw);
 		    param.put("name", name);
 		    param.put("addr", addr);
 		    param.put("phone", phone);
-		    membercontroller = new MemberController();
-		    Map<String, Object> result = membercontroller.execute(2, param);
+		    Map<String, Object> result = controller.execute("/member", 2, param, id);
 		    
 		    //DB에 INSERT
 		    if(result!=null) {
@@ -171,24 +167,28 @@ public class JoinUI extends JFrame implements ActionListener{
 		    }else {
 		    	System.out.println("INSERT 실패");
 		    }
+		    
 		}else if(e.getSource()==btn3) {
-			System.out.println("Duplicate");
-//			try {
-//				conn=DriverManager.getConnection(url,id,pw);
-//				pstmt = conn.prepareStatement("select * from tbl_member where id=?");
-//				pstmt.setString(1, txt1.getText());
-//				rs = pstmt.executeQuery();
-//				if(rs.next()) {
-//					JOptionPane.showMessageDialog(null,"이미 존재하는 아이디입니다..", "Duplicate",JOptionPane.ERROR_MESSAGE);
-//				}else {
-//					JOptionPane.showMessageDialog(null,"사용가능한 아이디입니다!", "Useful",JOptionPane.INFORMATION_MESSAGE);
-//				}
-//				pstmt.close();
-//				rs.close();
-//			} catch (SQLException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
+			// 입력 값 확인
+		    String id = txt1.getText();
+		    
+		    //param 받아오기
+		    Map<String, Object> param = new HashMap();
+		    param.put("id", id);
+		    
+		    Map<String, Object> result = controller.execute("/member", 7, param, id);
+		    boolean isDuplicate = (boolean)result.get("result");
+		    
+		    if(isDuplicate) {
+		    	System.out.println("중복X");
+		    	JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다!", "[INFO]", JOptionPane.INFORMATION_MESSAGE);
+		    }else {
+		    	System.out.println("중복");
+		    	JOptionPane.showMessageDialog(null, "이미 사용중인 아이디입니다..", "[ERROR]", JOptionPane.ERROR_MESSAGE);
+		    }
+		   
+		    
+		    
 		}
 		
 	}
