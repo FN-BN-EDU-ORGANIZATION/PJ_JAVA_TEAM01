@@ -15,8 +15,8 @@ private MemberService service;
 	public MemberController(){
 	service = MemberService.getInstance();
 	}
-	//[              CRUD                 ]
-		//[1 Select 2 Insert 3 Update 4 Delete] 5 로그인 6 로그아웃 7 중복확인
+		//[              CRUD                 ]
+		//[1 Select 2 Insert 3 Update 4 Delete]  5 로그인  6 로그아웃  7 중복확인  
 	public Map<String,Object> execute(int serviceNo, Map<String, Object> param) {
 			
 			if(serviceNo==1) {
@@ -146,10 +146,17 @@ private MemberService service;
 				//2 입력값 검증
 				//3 서비스 실행
 				//4 View로 전달			
+				
 			}else if(serviceNo==7) { //id 중복확인
 				//1 파라미터 추출
+				String id = (String)param.get("id");
 				//2 입력값 검증
+				if(id==null) {
+					System.out.println("[ERROR] Data Validation Check Error !");
+					return null;
+				}
 				//3 서비스 실행
+				
 				//4 View로 전달	
 			}
 			

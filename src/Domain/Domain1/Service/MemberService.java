@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.swing.JOptionPane;
 
 import src.Domain.Domain1.Dao.MemberDao;
 import src.Domain.Domain1.Dto.MemberDto;
@@ -112,6 +111,9 @@ public class MemberService {
 			sessionMap.remove(sid);
 			return true;
 		}
+		
+		//중복확인
+		
 		
 		//역할반환함수
 		public String getRole(String sid) {

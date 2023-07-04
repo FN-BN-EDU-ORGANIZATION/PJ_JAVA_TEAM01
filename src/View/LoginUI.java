@@ -37,7 +37,9 @@ public class LoginUI extends JFrame implements ActionListener{
 	
 	//
 	MainGUI maingui;
+	Log_MainGUI logmaingui;
 	JoinUI joinUI;
+	
 //	MemberUI membergui;
 //	UserUI usergui;
 	
@@ -127,10 +129,11 @@ public class LoginUI extends JFrame implements ActionListener{
 			Map<String, Object> result = membercontroller.execute(5,param);
 			if(result!=null) {
 				JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
-				this.Frm_login = new JFrame();
-				Frm_login.setVisible(false);
-				maingui = new MainGUI();
-				maingui.setVisible(true);
+				logmaingui = new Log_MainGUI();
+				logmaingui.setVisible(true);
+				this.setVisible(false);
+				this.setUserName(id);
+				
 			} else{
 				JOptionPane.showMessageDialog(null,"로그인에 실패했습니다..", "LogIn",JOptionPane.ERROR_MESSAGE);	
 				this.Frm_login = new JFrame();
@@ -144,7 +147,11 @@ public class LoginUI extends JFrame implements ActionListener{
 		}
 	}
 	
-
+	public void setUserName(String username) {
+		logmaingui.label.setText(username+"님, 자유롭게 음악을 검색해보세요!");
+	}
+	
+	
 	public void setMainGUI(MainGUI maingui) {
 		this.maingui = maingui;
 //		membergui.setMainUI(maingui);

@@ -33,13 +33,6 @@ public class FrontController {
 		}else if(controller instanceof MusicController) {
 				
 			MusicController down = (MusicController)controller;
-			down.searchTracks("검색어");
-		}else if(controller instanceof MemberController) {
-			 
-			  MemberController down=(MemberController)controller;
-			  down.execute(ServiceNo,param);
-			  
-			  System.out.println("MemberController !");
 		}
 			
 			
