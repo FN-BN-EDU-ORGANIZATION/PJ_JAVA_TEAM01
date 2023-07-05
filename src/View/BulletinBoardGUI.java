@@ -1,4 +1,4 @@
-package src.ETC;
+package src.View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,8 +18,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
-import src.View.MainGUI;
 
 public class BulletinBoardGUI extends JFrame implements ActionListener {
     private JTable table;

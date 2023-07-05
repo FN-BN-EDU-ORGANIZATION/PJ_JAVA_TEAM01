@@ -20,7 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
-import src.ETC.BulletinBoardGUI;
 
 
 public class MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {

@@ -7,7 +7,7 @@ import java.util.Map;
 import src.Domain.Domain1.Dto.QnADto;
 import src.Domain.Domain1.Service.MemberService;
 import src.Domain.Domain1.Service.QnAService;
-import src.ETC.BulletinBoardGUI;
+import src.View.BulletinBoardGUI;
 
 public class QnAController {
 	private MemberService service;

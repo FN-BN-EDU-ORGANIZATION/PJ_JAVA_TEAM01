@@ -6,7 +6,7 @@ import java.util.List;
 import src.Domain.Domain1.Dao.MemberDao;
 import src.Domain.Domain1.Dao.QnADao;
 import src.Domain.Domain1.Dto.QnADto;
-import src.ETC.BulletinBoardGUI;
+import src.View.BulletinBoardGUI;
 
 
 public class QnAService {
