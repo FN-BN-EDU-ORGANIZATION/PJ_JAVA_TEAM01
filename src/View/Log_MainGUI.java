@@ -35,9 +35,12 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	JButton btn2; //게시판
 	JButton btn3; //검색버튼
 	JButton btn4; //검색기록확인
+	JButton btn5; //내정보버튼
 	JLabel label; //유저 확인
-		
-	//
+	JFrame Frm_info; //내정보 Frame
+	
+	
+	//GUI 연결
 	LoginUI loginUI;
 	MainGUI maingui;
 	
@@ -74,6 +77,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		btn2 = new JButton("QnA");
 		btn3 = new JButton("검색");
 		btn4 = new JButton("검색기록");
+		btn5 = new JButton("내정보");
 		label = new JLabel();
 		
 		
@@ -83,6 +87,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		btn2.setBounds(160,30,100,30); //QnA게시판버튼
 		btn3.setBounds(890,80,60,30); //검색버튼
 		btn4.setBounds(850,30,100,30); //검색기록
+		btn5.setBounds(730,30,100,30); //검색기록
 		label.setBounds(350,30,250,30); //label
 		txt.setBounds(40,80,820,30); //검색창
 		tableScroll.setBounds(40,130,910,200); //테이블
@@ -92,6 +97,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		btn2.addActionListener(this);
 		btn3.addActionListener(this);
 		btn4.addActionListener(this);
+		btn5.addActionListener(this);
 		txt.addKeyListener(this);
 		table.addMouseListener(this);
 		
@@ -102,6 +108,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		panel.add(btn2);
 		panel.add(btn3);
 		panel.add(btn4);
+		panel.add(btn5);
 		panel.add(label);
 		panel.add(tableScroll);
 		
@@ -110,7 +117,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		setVisible(true);
 		setResizable(false);
 		
-		
+		//
 		
 
 		//검색창 클릭 시 기본문구 없어지게 하기
@@ -207,6 +214,86 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		}else if(e.getSource()==btn4) {
 			System.out.println("BTN4 CLICK ");
 			showSearchHistory();
+		}else if(e.getSource()==btn5) {
+			System.out.println("내정보");
+			
+			//새 프레임창 생성
+			Frm_info = new JFrame("MY PAGE");
+			Frm_info.setBounds(200,100,300,270);
+			
+			//Panel객체 생성
+			JPanel panel = new JPanel();
+			
+			//Component객체 생성
+			JLabel id = new JLabel("ID");
+			JLabel name = new JLabel("이름");
+			JLabel addr = new JLabel("주소");
+			JLabel phone = new JLabel("핸드폰번호");
+			JTextField id_txt = new JTextField();
+			JTextField name_txt = new JTextField();
+			JTextField addr_txt = new JTextField();
+			JTextField phone_txt = new JTextField();
+			JButton btn1 = new JButton("수정");
+			JButton btn2 = new JButton("닫기");
+			
+			//위치 지정
+			id.setBounds(30,10,60,30);
+			name.setBounds(30,50,60,30);
+			addr.setBounds(30,90,60,30);
+			phone.setBounds(30,130,70,30);
+			id_txt.setBounds(110,10,150,30);
+			name_txt.setBounds(110,50,150,30);
+			addr_txt.setBounds(110,90,150,30);
+			phone_txt.setBounds(110,130,150,30);
+			btn1.setBounds(60,180,60,30);
+			btn2.setBounds(170,180,60,30);
+			
+			//btn_EVENT
+			btn1.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("수정버튼클릭");
+					
+				}
+				
+			});
+			btn2.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("닫기버튼클릭");
+					Frm_info.setVisible(false);
+				}
+				
+			});
+			
+			//Component를 Panel에 추가
+			panel.add(id);
+			panel.add(name);
+			panel.add(addr);
+			panel.add(phone);
+			panel.add(id_txt);
+			panel.add(name_txt);
+			panel.add(addr_txt);
+			panel.add(phone_txt);
+			panel.add(btn1);
+			panel.add(btn2);
+			
+			//Panel Layout설정
+			
+			panel.setLayout(null);
+			
+			//Frame에 panel추가
+			Frm_info.getContentPane().add(panel);
+			
+			//X버튼 누를 때 setVisible(false)로 설정
+			Frm_info.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			Frm_info.setVisible(true);
+			
+			
+			
+			
 		}
 		
 	}
@@ -247,6 +334,5 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 //	public static void main(String[] args) {
 //		new Log_MainGUI();
 //	}
-	
 
 }
