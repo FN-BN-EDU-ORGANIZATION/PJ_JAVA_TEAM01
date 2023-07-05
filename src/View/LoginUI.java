@@ -9,22 +9,26 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 
 public class LoginUI extends JFrame implements ActionListener{
 
 	JTextField id_txt;
-	JTextField pw_txt;
+	JPasswordField pw_txt;
 	JButton login_btn;
 	JButton join_btn;
 	Label L_id;
 	Label L_pw;
 	
+	JFrame Frm_login;
 	
 	//
 	MainGUI maingui;
@@ -33,14 +37,14 @@ public class LoginUI extends JFrame implements ActionListener{
 //	UserUI usergui;
 	
 	// DB연결정보 저장용 변수
-		String id = "root";
-		String pw = "1234";
-		String url = "jdbc:mysql://localhost:3306/musicdb";
+	String id = "root";
+	String pw = "1234";
+	String url = "jdbc:mysql://localhost:3306/musicdb";
 
-		// JDBC참조변수
-		Connection conn = null; // DB연결용 참조변수
-		PreparedStatement pstmt = null; // SQL쿼리 전송용 참조변수
-		ResultSet rs = null; // SQL쿼리 결과(SELECT결과) 수신용 참조변수
+	// JDBC참조변수
+	Connection conn = null; // DB연결용 참조변수
+	PreparedStatement pstmt = null; // SQL쿼리 전송용 참조변수
+	ResultSet rs = null; // SQL쿼리 결과(SELECT결과) 수신용 참조변수
 	
 	public LoginUI(){
 		super("LOGIN");
@@ -53,7 +57,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		
 		//
 		id_txt = new JTextField();
-		pw_txt = new JTextField();
+		pw_txt = new JPasswordField();
 		login_btn = new JButton("로그인");
 		join_btn = new JButton("회원가입");
 		L_id = new Label(" ID");
@@ -85,6 +89,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		
 		
 		//joinUI
 		joinUI = new JoinUI();
@@ -124,29 +129,35 @@ public class LoginUI extends JFrame implements ActionListener{
 		if(e.getSource()==login_btn) {
 			System.out.println("LOGIN_BTN");
 			//로그인 체크
-			
-			
-			//회원사서인지 판단해서 창띄우기
-			if(id_txt.getText().equals("1"))
-			{
-				this.setVisible(false);
-//				membergui.setVisible(true);
-			}
-			else if(id_txt.getText().equals("2"))
-			{
-				this.setVisible(false);
-//				usergui.setVisible(true);
+			try {
+				pstmt = conn.prepareStatement("select * from tbl_member where id = ? and pw = ?");
+				pstmt.setString(1, id_txt.getText());
+				pstmt.setString(2, pw_txt.getText());
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
+					this.Frm_login = new JFrame();
+					Frm_login.setVisible(false);
+					maingui.setVisible(true);
+				}
+				else{
+					JOptionPane.showMessageDialog(null,"로그인에 실패했습니다..", "LogIn",JOptionPane.ERROR_MESSAGE);
+					this.Frm_login = new JFrame();
+					Frm_login.setVisible(false);
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			 
-			
-		}
-		
-		if(e.getSource()==join_btn) {
+	}
+		else if(e.getSource()==join_btn) {
 			System.out.println("JOIN_BTN");
+			joinUI = new JoinUI();
 			joinUI.setVisible(true);
 			this.setVisible(false);
 		}
-		
 	}
 	
 
