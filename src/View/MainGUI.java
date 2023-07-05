@@ -32,7 +32,7 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 	
 	JTable table;
 	JScrollPane tableScroll;
-	JTextField txt; //검색버튼
+	JTextField txt; //검색
 	JButton btn1; //로그인
 	JButton btn2; //게시판
 	JButton btn3; //검색버튼

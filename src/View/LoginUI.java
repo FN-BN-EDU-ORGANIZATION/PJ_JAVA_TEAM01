@@ -3,6 +3,8 @@ package src.View;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -19,7 +21,7 @@ import src.Controller.FrontController;
 
 
 
-public class LoginUI extends JFrame implements ActionListener{
+public class LoginUI extends JFrame implements ActionListener, KeyListener{
 
 	private FrontController controller;
 
@@ -70,6 +72,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		//EVENT
 		login_btn.addActionListener(this);
 		join_btn.addActionListener(this);
+	    pw_txt.addKeyListener(this); //pw_txt에서 엔터를 눌렀을 때 검색버튼 눌리도록!
 		
 		
 		// 컴포넌트를 패널에 추가
@@ -91,11 +94,6 @@ public class LoginUI extends JFrame implements ActionListener{
 		//joinUI
 		joinUI = new JoinUI();
 		joinUI.setVisible(false);
-//		joinUI.setMainGUI(this);
-		
-		
-//		membergui = new MemberUI();
-//		usergui = new UserUI();
 		
 		
 		
@@ -147,6 +145,28 @@ public class LoginUI extends JFrame implements ActionListener{
 		}
 	}
 	
+	@Override
+    public void keyPressed(KeyEvent e) { //엔터키 눌렀을 때 로그인버튼이 눌리도록
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            // Simulate a click on the login button
+            login_btn.doClick();
+		}
+    }
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void setUserName(String username) {
 		logmaingui.label.setText(username+"님, 자유롭게 음악을 검색해보세요!");
 	}
@@ -159,5 +179,9 @@ public class LoginUI extends JFrame implements ActionListener{
 		
 		
 	}
+
+
+
+	
 	
 }
