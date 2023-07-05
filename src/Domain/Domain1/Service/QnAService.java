@@ -1,5 +1,6 @@
 package src.Domain.Domain1.Service;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import src.Domain.Domain1.Dao.MemberDao;
 import src.Domain.Domain1.Dao.QnADao;
 import src.Domain.Domain1.Dto.QnADto;
 import src.ETC.BulletinBoardGUI;
-
 
 public class QnAService {
 	private static QnAService instance;
@@ -22,6 +22,9 @@ public class QnAService {
         MemberDao memDao = MemberDao.getInstance();
         bulletinBoardGUI = new BulletinBoardGUI();
         postService = new PostService();
+        
+        bulletinBoardGUI.setPostService(postService); // GUI와 PostService 연결
+        bulletinBoardGUI.addActionListener(postService); // GUI의 ActionListener에 PostService 연결
     }
 
     public static synchronized QnAService getInstance() {
@@ -37,6 +40,7 @@ public class QnAService {
 
     public void setQnAUI(BulletinBoardGUI qnaUI) {
         this.bulletinBoardGUI = qnaUI;
+        bulletinBoardGUI.addActionListener(postService);
     }
 
     public boolean memService(String sid, String id) throws Exception {

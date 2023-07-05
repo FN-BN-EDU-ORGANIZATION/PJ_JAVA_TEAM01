@@ -17,7 +17,7 @@ public class FrontController {
 	void init() {
 		map.put("/member", new MemberController());
 		map.put("/music", new MusicController());
-		map.put("/qna", new QnAController());
+//		map.put("/qna", new QnAController());
 		musicController = new MusicController();
 	}
 	

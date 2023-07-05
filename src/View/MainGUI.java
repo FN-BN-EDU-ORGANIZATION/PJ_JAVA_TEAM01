@@ -20,14 +20,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
-import src.Controller.MusicController;
+import src.ETC.BulletinBoardGUI;
 
 
 public class MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
 
 	private FrontController controller;
-	private MusicController musicController;
 
 
 	
@@ -42,6 +41,7 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 	
 	//
 	LoginUI loginUI;
+	BulletinBoardGUI bulletinBoardGUI;
 	
 	//테이블 열이름
 	String[] columnNames = {"TITLE", "ARTIST", "URL"};
@@ -57,7 +57,6 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 		setBounds(100, 100, 1000, 400);
 		
 		controller = new FrontController();
-		musicController = new MusicController();
 		
 		// 패널
 		JPanel panel = new JPanel();
@@ -106,7 +105,8 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 		loginUI.setVisible(false);
 		loginUI.setMainGUI(this);
 		
-		
+		bulletinBoardGUI = new BulletinBoardGUI();
+        bulletinBoardGUI.setVisible(false);
 
 		//검색창 클릭 시 기본문구 없어지게 하기
 		txt.addFocusListener(new FocusListener() {
@@ -130,8 +130,8 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 	public void performSearch() {
         // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
 		String searchText = txt.getText();
-        musicController.searchTracks(searchText);
-        updateTable(musicController.getTableModel());
+		controller.searchTracks(searchText);
+        updateTable(controller.getTableModel());
     }
 	@Override
     public void keyPressed(KeyEvent e) {
@@ -159,7 +159,7 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
             // URL 주소 열 클릭 시 URL 주소 열기
          
                 String url = (String) table.getValueAt(row, 2);
-                musicController.openWebpage(url);
+                controller.openWebpage(url);
             }
 	}
     
@@ -172,11 +172,10 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 			this.setVisible(false);
 		}else if(e.getSource()==btn2) { //QnA화면
 			System.out.println("BTN2 CLICK ");
+			bulletinBoardGUI.setVisible(true);
+	       this.setVisible(false);
 		}else if(e.getSource()==btn3) { //검색
 			System.out.println("BTN3 CLICK ");
-//			String searchText = txt.getText();
-//            musicController.searchTracks(searchText);
-//            updateTable(musicController.getTableModel());
 			performSearch();
 		}
 		

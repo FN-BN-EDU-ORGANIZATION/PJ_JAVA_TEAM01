@@ -22,14 +22,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
-import src.Controller.MusicController;
-
 
 public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
 
 	private FrontController controller;
-	private MusicController musicController;
 	
 	JTable table;
 	JScrollPane tableScroll;
@@ -158,6 +155,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	    historyFrame.setVisible(true);
 	    
 	}
+	
 	public void performSearch() {
         // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
 		String searchText = txt.getText();
@@ -189,7 +187,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
             // URL 주소 열 클릭 시 URL 주소 열기
             String url = (String) table.getValueAt(row, 2);
-            musicController.openWebpage(url);
+            controller.openWebpage(url);
         }
 	}
     
