@@ -12,29 +12,37 @@ public class FrontController {
 	private Map<String,Object> map = new HashMap();
 	private MusicController musicController;
 	private List<String> searchHistory;
-	
-	void init() {
-		map.put("/member", new MemberController());
-		map.put("/music", new MusicController());
-		map.put("/qna", new QnAController());
-		musicController = new MusicController();
-	}
-	
+
 	public FrontController() {
 		init();
 		musicController = new MusicController();
 		searchHistory = new ArrayList<>();
 	}
 	
+	void init() {
+		map.put("/member", new MemberController());
+		map.put("/music", new MusicController());
+		map.put("/qna", new QnAController());
+	}
+	
+	
 	public void searchTracks(String searchText) {
         musicController.searchTracks(searchText);
         searchHistory.add(searchText);
     }
+	
+	public void openWebpage(String url) {
+		musicController.openWebpage(url);
+		
+	}
+
+	public List<String> getSearchHistory() {
+		return searchHistory;
+	}
 
     public DefaultTableModel getTableModel() {
         return musicController.getTableModel();
     }
-
 	
 	public Map<String,Object> execute(String uri,int ServiceNo , Map<String,Object>param,String memberId)
 	{
@@ -46,37 +54,39 @@ public class FrontController {
 			MemberController down = (MemberController)controller;
 			result = down.execute(ServiceNo, param);	
 			System.out.println("MemberController");
+			return result;
 		}else if(controller instanceof MusicController) {
 			MusicController down = (MusicController)controller;
-			// MusicController의 기능 활용
-            String searchText = (String) param.get("searchText");
-            down.setMemberId(memberId); // memberId 설정
-            down.searchTracks(searchText);
-            DefaultTableModel tableModel = down.getTableModel();
-            // 테이블 모델을 이용하여 필요한 작업 수행
-
+			if (ServiceNo == 1) { // 검색 기록 추가
+	            String searchText = (String) param.get("searchText");
+	            down.addSearchHistory(memberId, searchText);
+	        } else if (ServiceNo == 2) { // 검색 기록 조회
+	            List<String> searchHistory = down.getUserSearchHistory(memberId);
+	            // 검색 기록 처리 작업
+	        }
             // 검색 기록 추가
-            searchHistory.add(searchText);
+//            searchHistory.add(searchText);
             
             System.out.println("MusicController");
-            
-            
 			
 		}
-		
 		
 		return param;
 		
 	}
-
-	public void openWebpage(String url) {
-		musicController.openWebpage(url);
-		
-	}
-
-	public List<String> getSearchHistory() {
-		
-		return searchHistory;
-	}
+	
+	 public void processRequest(String command, String searchText, String memberId) {
+	        if (command.equals("searchTracks")) {
+	            musicController.setMemberId(memberId);
+	            musicController.searchTracks(searchText);
+	        } else if (command.equals("openWebpage")) {
+	            musicController.openWebpage(searchText);
+	        } else if (command.equals("getUserSearchHistory")) {
+	            List<String> searchHistory = musicController.getUserSearchHistory(memberId);
+	            // 검색 기록 처리
+	        } else if (command.equals("addSearchHistory")) {
+	            musicController.addSearchHistory(memberId, searchText);
+	        }
+	    }
 
 }

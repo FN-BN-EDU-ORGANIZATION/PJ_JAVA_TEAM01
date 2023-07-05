@@ -38,6 +38,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	JButton btn4; //검색기록확인
 	JLabel label; //유저 확인
 		
+	private String memberId;
+	
 	//
 	LoginUI loginUI;
 	MainGUI maingui;
@@ -132,9 +134,10 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		});
 		
 	}
+	
 	public void showSearchHistory() {
 	    // 검색 기록을 가져옵니다.
-	    List<String> searchHistory = controller.getSearchHistory();
+		List<String> searchHistory = controller.getSearchHistory();
 	    
 	    // 검색 기록을 보여주는 간단한 창 생성
 	    JFrame historyFrame = new JFrame("검색 기록");
@@ -244,10 +247,5 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		// TODO Auto-generated method stub
 		
 	}
-	
-//	public static void main(String[] args) {
-//		new Log_MainGUI();
-//	}
-	
 
 }

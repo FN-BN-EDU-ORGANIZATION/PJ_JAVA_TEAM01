@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +18,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import src.View.MainGUI;
 
 public class BulletinBoardGUI extends JFrame implements ActionListener {
     private JTable table;
@@ -29,13 +33,14 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
     private JButton deleteButton;
 	private JLabel TitleLabel;
     
+	MainGUI maingui;
 
 
 
 
     public BulletinBoardGUI() {
         super("Bulletin Board");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1280, 720);
 
         // 게시물 목록을 표시할 JTable
@@ -109,8 +114,19 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
         editButton.addActionListener(this);
         deleteButton.addActionListener(this);
 
-        setVisible(true);
+        setVisible(false);
         
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+            	
+            	maingui = new MainGUI();
+            	maingui.setVisible(true);
+            	
+            	
+            }
+        });
     }
 
     @Override
@@ -138,10 +154,7 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
         }
         }
     }
-        public static void main(String[] args) {
-            // BulletinBoardGUI 인스턴스 생성
-            BulletinBoardGUI gui = new BulletinBoardGUI();
-        }
+
 
 		public JLabel ContentLabel() {
 			return ContentLabel;
@@ -153,6 +166,11 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
 
 		public void someMethod() {
 			// TODO Auto-generated method stub
+			
+		}
+
+		public void setMainGUI(MainGUI mainGUI) {
+			this.maingui = maingui;
 			
 		}
 		

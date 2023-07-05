@@ -11,6 +11,7 @@ import src.Domain.Domain1.Dto.MemberDto;
 import src.Domain.Domain1.Service.Auth.Session;
 
 
+
 public class MemberService {
 		//세션정보저장
 		public Map<String,Session> sessionMap;
@@ -18,7 +19,7 @@ public class MemberService {
 		private MemberDao dao;
 		
 		private Map<String, List<String>> memberSearchHistoryMap;
-		
+	
 		//싱글톤
 		private static MemberService instance;
 		public static MemberService getInstance() {
@@ -133,6 +134,17 @@ public class MemberService {
 			}
 			sessionMap.remove(sid);
 			return true;
+		}
+		
+		//중복확인
+		public boolean idcheck(String id) throws Exception {
+			MemberDto dbDto = dao.select(id);
+			if(dbDto==null) {
+				System.out.println("[INFO] 사용가능한 아이디입니다.");
+				return true;
+			}
+			System.out.println("[ERROR] 이미 사용중인 아이디입니다.");
+			return false;
 		}
 		
 		//역할반환함수

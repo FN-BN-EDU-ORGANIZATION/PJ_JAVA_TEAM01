@@ -3,6 +3,8 @@ package src.View;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -15,12 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import src.Controller.MemberController;
+import src.Controller.FrontController;
 
 
-public class LoginUI extends JFrame implements ActionListener{
+public class LoginUI extends JFrame implements ActionListener, KeyListener{
 
-	private MemberController membercontroller;
+	private FrontController controller;
 
 	JTextField id_txt;
 	JPasswordField pw_txt;
@@ -69,7 +71,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		//EVENT
 		login_btn.addActionListener(this);
 		join_btn.addActionListener(this);
-		
+		pw_txt.addKeyListener(this); //pw_txt에서 엔터를 눌렀을 때 검색버튼 눌리도록!
 		
 		// 컴포넌트를 패널에 추가
 		panel.add(id_txt);
@@ -85,6 +87,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		setVisible(true);
 		setResizable(false);
 		
+		controller = new FrontController();
 		
 		//joinUI
 		joinUI = new JoinUI();
@@ -118,11 +121,12 @@ public class LoginUI extends JFrame implements ActionListener{
 			System.out.println("LOGIN_BTN");
 			String id = id_txt.getText();
 			String pw = pw_txt.getText();
+			
 			Map<String, Object> param = new HashMap();
 			param.put("id", id);
 			param.put("pw", pw);
-			membercontroller = new MemberController();
-			Map<String, Object> result = membercontroller.execute(5,param);
+			
+			Map<String, Object> result = controller.execute("/member", 5, param, id);
 			if(result!=null) {
 				JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
 				logmaingui = new Log_MainGUI();
@@ -141,6 +145,28 @@ public class LoginUI extends JFrame implements ActionListener{
 			joinUI.setVisible(true);
 			this.setVisible(false);
 		}
+	}
+	
+	@Override
+    public void keyPressed(KeyEvent e) { //엔터키 눌렀을 때 로그인버튼이 눌리도록
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            // Simulate a click on the login button
+            login_btn.doClick();
+		}
+    }
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public void setUserName(String username) {

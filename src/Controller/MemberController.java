@@ -146,9 +146,26 @@ private MemberService service;
 					//4 View로 전달			
 				}else if(serviceNo==7) { //id 중복확인
 					//1 파라미터 추출
+					String id = (String)param.get("id");	//3 서비스 실행
+					Boolean rValue = false;
+					
 					//2 입력값 검증
-					//3 서비스 실행
+					if(id==null) {
+						System.out.println("[ERROR] Data Validation Check Error !");
+						return null;
+					}
+				
+					try {
+						rValue = service.idcheck(id);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					//4 View로 전달	
+					System.out.println("id_Check Block!");
+					Map<String,Object> result = new HashMap();
+					result.put("result", rValue);
+					return result;
+					
 				}else if (serviceNo == 8) {
 		            //1 파라미터 추출
 		            String memberId = (String) param.get("memberId");
@@ -169,8 +186,6 @@ private MemberService service;
 		            result.put("result", "Search history added successfully");
 		            return result;
 		        }
-
-				
 				
 				return null;
 			}

@@ -8,8 +8,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,15 +20,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
-import src.Controller.MusicController;
+import src.ETC.BulletinBoardGUI;
 
 
 public class MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
 
 	private FrontController controller;
-
-
+	private BulletinBoardGUI bulletinBoardGUI;
 	
 	JTable table;
 	JScrollPane tableScroll;
@@ -52,7 +49,6 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 	
 	public MainGUI() {
 
-		
 		
 		super("MAIN MENU");
 		setBounds(100, 100, 1000, 400);
@@ -101,6 +97,8 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 		setVisible(true);
 		setResizable(false);
 		
+		bulletinBoardGUI = new BulletinBoardGUI();
+		
 		//loginUI
 		loginUI = new LoginUI();
 		loginUI.setVisible(false);
@@ -129,9 +127,11 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 	
 	public void performSearch() {
         // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
-		String searchText = txt.getText();
-		controller.searchTracks(searchText);
-        updateTable(controller.getTableModel());
+		 String searchText = txt.getText();
+		 String memberId = ""; // 사용자의 ID를 설정해야 하는 경우 해당 변수에 ID 값을 할당
+
+		 controller.processRequest("searchTracks", searchText, memberId);
+		 updateTable(controller.getTableModel());
     }
 	@Override
     public void keyPressed(KeyEvent e) {
@@ -143,12 +143,10 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-    }
+    public void keyReleased(KeyEvent e) {}
     
     @Override
 	public void mouseClicked(MouseEvent e) {
@@ -172,11 +170,10 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 			this.setVisible(false);
 		}else if(e.getSource()==btn2) { //QnA화면
 			System.out.println("BTN2 CLICK ");
+			bulletinBoardGUI.setVisible(true);
+			this.setVisible(false);
 		}else if(e.getSource()==btn3) { //검색
 			System.out.println("BTN3 CLICK ");
-//			String searchText = txt.getText();
-//            musicController.searchTracks(searchText);
-//            updateTable(musicController.getTableModel());
 			performSearch();
 		}
 		
@@ -192,29 +189,15 @@ public class MainGUI extends JFrame implements ActionListener, KeyListener, Mous
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
+	public void mouseExited(MouseEvent e) {}
 
 }
