@@ -2,22 +2,24 @@ package src.Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import src.Domain.Domain1.Dto.QnADto;
 import src.Domain.Domain1.Service.MemberService;
+import src.Domain.Domain1.Service.MemberServiceImpl;
 import src.Domain.Domain1.Service.QnAService;
 import src.ETC.BulletinBoardGUI;
 
-public class QnAController{
+public class QnAController {
 private MemberService service;
 private QnAService qnaService;
 private BulletinBoardGUI bulletinBoardGUI;
 
 	
 	public QnAController(){
-	service = MemberService.getInstance();
+	service = MemberServiceImpl.getInstance();
 	qnaService = QnAService.getInstance();
 	qnaService.setMemberService(service);
 	
@@ -103,5 +105,11 @@ private BulletinBoardGUI bulletinBoardGUI;
 	            }
 	        }
 	    }
+	}
+
+	@Override
+	public Map<String, Object> execute(int serviceNo, Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

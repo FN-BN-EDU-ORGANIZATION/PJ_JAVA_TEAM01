@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
+import src.Controller.SubController;
 import src.ETC.BulletinBoardGUI;
 
 

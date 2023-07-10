@@ -8,7 +8,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
+import src.Controller.SubController;
+import src.Domain.Domain1.Dto.MemberDto;
 
 public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
@@ -267,6 +271,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 				}
 				
 			});
+			
 			
 			//Component를 Panel에 추가
 			panel.add(id);

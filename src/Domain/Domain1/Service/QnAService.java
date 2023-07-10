@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import src.Domain.Domain1.Dao.MemberDao;
+import src.Domain.Domain1.Dao.MemberDaoImpl;
 import src.Domain.Domain1.Dao.QnADao;
 import src.Domain.Domain1.Dto.QnADto;
 import src.ETC.BulletinBoardGUI;
@@ -18,8 +19,8 @@ public class QnAService {
 
     private QnAService() {
         dao = QnADao.getInstance();
-        memService = MemberService.getInstance();
-        MemberDao memDao = MemberDao.getInstance();
+        memService = MemberServiceImpl.getInstance();
+        MemberDao memDao = MemberDaoImpl.getInstance();
         bulletinBoardGUI = new BulletinBoardGUI();
         postService = new PostService();
         
