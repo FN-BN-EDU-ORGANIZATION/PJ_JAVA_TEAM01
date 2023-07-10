@@ -6,12 +6,13 @@ import java.util.Map;
 
 import src.Domain.Domain1.Dto.MemberDto;
 import src.Domain.Domain1.Service.MemberService;
+import src.Domain.Domain1.Service.MemberServiceImpl;
 
 public class MemberController {
 private MemberService service;
 	
 	public MemberController(){
-	service = MemberService.getInstance();
+	service = MemberServiceImpl.getInstance();
 	}
 	//[              CRUD                 ]
 			//[1 Select 2 Insert 3 Update 4 Delete] 5 로그인 6 로그아웃 7 중복확인

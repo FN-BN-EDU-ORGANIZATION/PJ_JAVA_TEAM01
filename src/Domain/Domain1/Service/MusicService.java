@@ -69,7 +69,7 @@ public class MusicService {
             }
             
             // 검색 기록 추가
-            MemberService.getInstance().addSearchHistory(memberId, searchText);
+            MemberServiceImpl.getInstance().addSearchHistory(memberId, searchText);
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }

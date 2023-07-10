@@ -28,6 +28,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
 
 	private FrontController controller;
+	private BulletinBoardGUI bulletinBoardGUI;
+	private Log_MainGUI log_maingui;
 	
 	JTable table;
 	JScrollPane tableScroll;
@@ -113,7 +115,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		setVisible(true);
 		setResizable(false);
 		
-		
+		bulletinBoardGUI = new BulletinBoardGUI();
+		bulletinBoardGUI.setLog_MainGUI(log_maingui);
 		
 
 		//검색창 클릭 시 기본문구 없어지게 하기
@@ -205,6 +208,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 			this.setVisible(false);
 		}else if(e.getSource()==btn2) { //QnA화면
 			System.out.println("BTN2 CLICK ");
+			bulletinBoardGUI.setVisible(true);
+			this.setVisible(false);
 		}else if(e.getSource()==btn3) { //검색
 			System.out.println("BTN3 CLICK ");
 			performSearch();
@@ -247,5 +252,6 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 }

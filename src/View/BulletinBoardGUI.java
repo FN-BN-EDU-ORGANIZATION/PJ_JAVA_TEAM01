@@ -31,7 +31,8 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
     private JButton deleteButton;
 	private JLabel TitleLabel;
     
-	MainGUI maingui;
+	private MainGUI maingui;
+	private Log_MainGUI log_maingui;
 
 
 
@@ -170,6 +171,10 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
 		public void setMainGUI(MainGUI mainGUI) {
 			this.maingui = maingui;
 			
+		}
+		
+		public void setLog_MainGUI(Log_MainGUI log_maingui) {
+			this.log_maingui = log_maingui;
 		}
 		
     }

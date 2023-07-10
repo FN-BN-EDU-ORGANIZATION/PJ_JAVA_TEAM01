@@ -6,6 +6,7 @@ import java.util.Map;
 
 import src.Domain.Domain1.Dto.QnADto;
 import src.Domain.Domain1.Service.MemberService;
+import src.Domain.Domain1.Service.MemberServiceImpl;
 import src.Domain.Domain1.Service.QnAService;
 import src.View.BulletinBoardGUI;
 
@@ -16,7 +17,7 @@ public class QnAController {
 
 	
 	public QnAController(){
-	service = MemberService.getInstance();
+	service = MemberServiceImpl.getInstance();
 	qnaService = QnAService.getInstance();
 	qnaService.setMemberService(service);
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import src.Domain.Domain1.Service.MemberService;
+import src.Domain.Domain1.Service.MemberServiceImpl;
 import src.Domain.Domain1.Service.MusicService;
 
 public class MusicController {
@@ -15,7 +16,7 @@ public class MusicController {
     
     public MusicController() {
         this.musicService = new MusicService(null);
-        this.memberService = MemberService.getInstance();
+        this.memberService = MemberServiceImpl.getInstance();
     }
 
     public void searchTracks(String searchText) {
