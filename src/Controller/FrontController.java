@@ -24,40 +24,27 @@ public class FrontController {
 		map.put("/music", new MusicController());
 		map.put("/qna", new QnAController());
 	}
-	
-	public void openWebpage(String url) {
-		musicController.openWebpage(url);	
-	}
 
 	public List<String> getSearchHistory() {
 		return searchHistory;
 	}
 
-    public DefaultTableModel getTableModel() {
-        return musicController.getTableModel();
-    }
-	
+
 	public Map<String,Object> execute(String uri,int ServiceNo , Map<String,Object>param)
 	{
-		Object controller = map.get(uri);
+		SubController controller = (SubController) map.get(uri);
 		Map<String, Object> result = new HashMap();
 		
-		if(controller instanceof MemberController) {
-			
-			MemberController down = (MemberController)controller;
-			result = down.execute(ServiceNo, param);	
-			System.out.println("MemberController");
-			return result;
-		}else if(controller instanceof MusicController) {
-			MusicController down = (MusicController)controller;
-			result = down.execute(ServiceNo, param);
-			
-			return result;
-		}
+		result = controller.execute(ServiceNo, param);	
 		
-		return param;
-		
+		return result;
 	}
-	
+	//검색기능추가
+	public void addSearchHistory(String searchText) {
+	    searchHistory.add(searchText);
+	}
+
+
+
 
 }

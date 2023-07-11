@@ -124,15 +124,17 @@ public class MemberServiceImpl implements MemberService {
 		@Override
 		public void addSearchHistory(String memberId, String searchText) {
 		    List<String> searchHistory = memberSearchHistoryMap.get(memberId);
-		    if (searchHistory != null) {
-		        searchHistory.add(searchText);
-		    }
+		    if (searchHistory == null) {
+	            searchHistory = new ArrayList<>();
+	            memberSearchHistoryMap.put(memberId, searchHistory);
+	        }
+	        searchHistory.add(searchText);
 		}
 
 		// 검색 기록 조회
 		@Override
 		public List<String> getSearchHistory(String memberId) {
-		    return memberSearchHistoryMap.getOrDefault(memberId, new ArrayList<>());
+			return memberSearchHistoryMap.getOrDefault(memberId, new ArrayList<>());
 		}
 	    
 		//로그아웃

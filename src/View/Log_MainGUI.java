@@ -30,9 +30,10 @@ import src.Domain.Domain1.Dto.MusicDto;
 public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
 
+	private static final JOptionPane OptionPane = null;
 	private FrontController controller;
 	private BulletinBoardGUI bulletinBoardGUI;
-	private Log_MainGUI log_maingui;
+	private LoginUI loginui;
 	
 	JTable table;
 	JScrollPane tableScroll;
@@ -119,7 +120,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		setResizable(false);
 		
 		bulletinBoardGUI = new BulletinBoardGUI();
-		bulletinBoardGUI.setLog_MainGUI(log_maingui);
+		bulletinBoardGUI.setLoginUI(loginui);
 		
 
 		//검색창 클릭 시 기본문구 없어지게 하기
@@ -167,41 +168,44 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	}
 	
 	public void performSearch() {
-		// 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
-				String searchText = txt.getText();
-				String memberId = ""; // 사용자의 ID를 설정해야 하는 경우 해당 변수에 ID 값을 할당
+	    String searchText = txt.getText();
+	    String memberId = "";
 
-				// controller.processRequest("searchTracks", searchText, memberId);
-				Map<String, Object> param = new HashMap();
-				param.put("searchText", searchText);
-				param.put("memberId", memberId);
+	    // controller.processRequest("searchTracks", searchText, memberId);
+	    Map<String, Object> param = new HashMap<>();
+	    param.put("searchText", searchText);
+	    param.put("memberId", memberId);
 
-				Map<String, Object> result = new HashMap();
-				result = controller.execute("/music", 1, param);
+	    Map<String, Object> result = controller.execute("/music", 1, param);
 
-				List<MusicDto> list = (List<MusicDto>) result.get("result");
+	    List<MusicDto> list = null;
+	    if (result != null) {
+	        list = (List<MusicDto>) result.get("result");
+	    }
 
-				// 모델작업
-				DefaultTableModel model = new DefaultTableModel(1, 0);
-				// -----------------
-				model.setColumnCount(0);
-				model.setRowCount(0);
+	    // 모델작업
+	    DefaultTableModel model = new DefaultTableModel(1, 0);
+	    model.setColumnCount(0);
+	    model.setRowCount(0);
+	    model.addColumn("TITLE");
+	    model.addColumn("ARTIST");
+	    model.addColumn("URL");
 
-				model.addColumn("TITLE");
-				model.addColumn("ARTIST");
-				model.addColumn("URL");
+	    if (list != null && !list.isEmpty()) {
+	        for (MusicDto dto : list) {
+	            Object[] rowData = { dto.getName(), dto.getArtist(), dto.getUrl() };
+	            model.addRow(rowData);
+	        }
+	    }
+	        // 검색 결과가 있는 경우에만 검색 기록 추가
+	        List<String> searchHistory = controller.getSearchHistory();
+	        searchHistory.add(searchText);
+	        if (list == null || list.isEmpty()) {
+	            JOptionPane.showMessageDialog(this, "검색 결과가 없습니다.", "검색 결과 없음", JOptionPane.INFORMATION_MESSAGE);
+	        }
 
-				for (MusicDto dto : list) {
-
-					Object[] rowData = { dto.getName(), dto.getArtist(), dto.getUrl() };
-					model.addRow(rowData);
-
-				}
-
-				// -----------------
-
-				updateTable(model);
-    }
+	    updateTable(model);
+	}
 	@Override
     public void keyPressed(KeyEvent e) {
         if (e.getSource() == txt) {
@@ -227,7 +231,9 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
             // URL 주소 열 클릭 시 URL 주소 열기
             String url = (String) table.getValueAt(row, 2);
-            controller.openWebpage(url);
+			Map<String, Object> param = new HashMap();
+			param.put("url", url);
+			controller.execute("/music", 2, param);
         }
 	}
     

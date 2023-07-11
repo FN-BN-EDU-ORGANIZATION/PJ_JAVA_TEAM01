@@ -32,7 +32,7 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
 	private JLabel TitleLabel;
     
 	private MainGUI maingui;
-	private Log_MainGUI log_maingui;
+	private LoginUI loginui;
 
 
 
@@ -123,7 +123,6 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
             	maingui = new MainGUI();
             	maingui.setVisible(true);
             	
-            	
             }
         });
     }
@@ -173,8 +172,10 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
 			
 		}
 		
-		public void setLog_MainGUI(Log_MainGUI log_maingui) {
-			this.log_maingui = log_maingui;
+		public void setLoginUI(LoginUI loginui) {
+			this.loginui = loginui;
 		}
+
+
 		
     }
