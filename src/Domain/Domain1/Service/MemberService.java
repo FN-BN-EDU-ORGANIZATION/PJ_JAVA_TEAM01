@@ -29,7 +29,7 @@ public interface MemberService {
 	Map<String, Object> login(String id, String pw) throws Exception;
 
 	// 검색 기록 추가
-	void addSearchHistory(String memberId, String searchText);
+	List<String> addSearchHistory(String memberId, String searchText);
 
 	// 검색 기록 조회
 	List<String> getSearchHistory(String memberId);

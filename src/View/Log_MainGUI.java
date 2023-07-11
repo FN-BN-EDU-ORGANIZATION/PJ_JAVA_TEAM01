@@ -144,6 +144,9 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		param.put("searchText", searchText);
 		Map<String, Object> result = controller.execute("/member",8, param);
 
+		//result(검색기록) 추출하기
+		List<String> searchList = (List<String>)result.get("result");
+				
 		// 검색 기록을 보여주는 간단한 창 생성
 		JFrame historyFrame = new JFrame("검색 기록");
 		historyFrame.setSize(400, 300);
@@ -154,9 +157,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		scrollPane.setBounds(10, 10, 380, 280);
 
 		// 검색 기록을 JTextArea에 추가
-		if (result != null && result.containsKey("result") && result.get("result") instanceof List) {
-			List<String> searchHistory = (List<String>) result.get("result");
-			for (String history : searchHistory) {
+		if (searchList != null) {
+			for (String history : searchList) {
 				historyTextArea.append(history + "\n");
 			}
 		} else {

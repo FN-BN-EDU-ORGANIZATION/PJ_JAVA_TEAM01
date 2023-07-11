@@ -192,12 +192,13 @@ public class MemberController implements SubController {
 			}
 
 			// 3 서비스 실행
-			service.addSearchHistory(memberId, searchText);
+			List<String> searchList = service.addSearchHistory(memberId, searchText);
 
 			// 4 View로 전달
-			System.out.println("Add Search History Block!");
 			Map<String, Object> result = new HashMap<>();
-			result.put("result", "Search history added successfully");
+			System.out.println("Add Search History Block!");
+			
+			result.put("result", searchList);
 			return result;
 		}
 
