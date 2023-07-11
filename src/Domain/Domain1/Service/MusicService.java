@@ -62,8 +62,6 @@ public class MusicService {
                 list.add(new MusicDto(name,artist,url));
             }
             
-            // 검색 기록 추가
-            MemberServiceImpl.getInstance().addSearchHistory(memberId, searchText);
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }
