@@ -15,7 +15,6 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,7 +31,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
 	private FrontController controller;
 	private BulletinBoardGUI bulletinBoardGUI;
-	private Log_MainGUI log_maingui;
+	private LoginUI loginui;
 	
 	JTable table;
 	JScrollPane tableScroll;
@@ -119,7 +118,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		setResizable(false);
 		
 		bulletinBoardGUI = new BulletinBoardGUI();
-		bulletinBoardGUI.setLog_MainGUI(log_maingui);
+		bulletinBoardGUI.setLoginUI(loginui);
 		
 
 		//검색창 클릭 시 기본문구 없어지게 하기
@@ -143,7 +142,13 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	
 	public void showSearchHistory() {
 	    // 검색 기록을 가져옵니다.
-		List<String> searchHistory = controller.getSearchHistory();
+		String memberId = ""; 
+		String searchText = txt.getText();
+		
+		Map<String, Object> param = new HashMap();
+		param.put("memberId", memberId);
+	    param.put("searchText", searchText);
+		Map<String, Object> result = controller.execute("/member", 8, param);
 	    
 	    // 검색 기록을 보여주는 간단한 창 생성
 	    JFrame historyFrame = new JFrame("검색 기록");
@@ -155,8 +160,13 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	    scrollPane.setBounds(10, 10, 380, 280);
 	    
 	    // 검색 기록을 JTextArea에 추가
-	    for (String history : searchHistory) {
-	        historyTextArea.append(history + "\n");
+	    if (result != null && result.containsKey("result") && result.get("result") instanceof List) {
+	        List<String> searchHistory = (List<String>) result.get("result");
+	        for (String history : searchHistory) {
+	            historyTextArea.append(history + "\n");
+	        }
+	    } else {
+	        historyTextArea.setText("검색 기록이 없습니다.");
 	    }
 	    // 컴포넌트를 창에 추가
 	    historyFrame.add(scrollPane);

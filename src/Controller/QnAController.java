@@ -10,7 +10,7 @@ import src.Domain.Domain1.Service.MemberServiceImpl;
 import src.Domain.Domain1.Service.QnAServiceImpl;
 import src.View.BulletinBoardGUI;
 
-public class QnAController {
+public class QnAController implements SubController {
 	private MemberService service;
 	private QnAServiceImpl qnaService;
 	private BulletinBoardGUI bulletinBoardGUI;

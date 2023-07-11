@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.table.DefaultTableModel;
-
 public class FrontController {
 	
-	private Map<String,Object> map = new HashMap();
+	private Map<String,SubController> map = new HashMap();
 	private MusicController musicController;
 	private List<String> searchHistory;
 
@@ -28,31 +26,15 @@ public class FrontController {
 	public List<String> getSearchHistory() {
 		return searchHistory;
 	}
-
-    public DefaultTableModel getTableModel() {
-        return musicController.getTableModel();
-    }
 	
 	public Map<String,Object> execute(String uri,int ServiceNo , Map<String,Object>param)
 	{
-		Object controller = map.get(uri);
+		SubController controller = map.get(uri);
 		Map<String, Object> result = new HashMap();
 		
-		if(controller instanceof MemberController) {
-			
-			MemberController down = (MemberController)controller;
-			result = down.execute(ServiceNo, param);	
-			System.out.println("MemberController");
-			return result;
-		}else if(controller instanceof MusicController) {
-			MusicController down = (MusicController)controller;
-			result = down.execute(ServiceNo, param);
-			
-			return result;
-		}
+		result = controller.execute(ServiceNo, param);	
 		
-		return param;
-		
+		return result;
 	}
 	
 
