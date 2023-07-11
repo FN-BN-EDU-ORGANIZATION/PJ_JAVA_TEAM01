@@ -31,6 +31,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
 	private FrontController controller;
 	private BulletinBoardGUI bulletinBoardGUI;
+	private LoginUI loginui;
 	
 	JTable table;
 	JScrollPane tableScroll;
@@ -43,9 +44,9 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	JLabel label; //유저 확인
 	JFrame Frm_info; //내정보 Frame
 	
-	
-	//GUI 연결
-	LoginUI loginUI;
+	private String memberId;
+
+	//
 	MainGUI maingui;
 	
 	//테이블 열이름
@@ -68,8 +69,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		panel.setLayout(null);
 
 		//loginUI
-		loginUI = new LoginUI();
-		loginUI.setVisible(false);
+		loginui = new LoginUI();
+		loginui.setVisible(false);
 //		loginUI.setMainGUI(this);
 		
 		// 컴포넌트
@@ -145,28 +146,42 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		
 	}
 	public void showSearchHistory() {
-	    // 검색 기록을 가져옵니다.
-	    List<String> searchHistory = controller.getSearchHistory();
-	    
-	    // 검색 기록을 보여주는 간단한 창 생성
-	    JFrame historyFrame = new JFrame("검색 기록");
-	    historyFrame.setSize(400, 300);
-	    
-	    // 검색 기록을 표시하는 JTextArea 생성
-	    JTextArea historyTextArea = new JTextArea();
-	    JScrollPane scrollPane = new JScrollPane(historyTextArea);
-	    scrollPane.setBounds(10, 10, 380, 280);
-	    
-	    // 검색 기록을 JTextArea에 추가
-	    for (String history : searchHistory) {
-	        historyTextArea.append(history + "\n");
-	    }
-	    // 컴포넌트를 창에 추가
-	    historyFrame.add(scrollPane);
-	    
-	    // 창 표시
-	    historyFrame.setVisible(true);
-	    
+		// 검색 기록을 가져옵니다.
+		String memberId = "";
+		String searchText = txt.getText();
+		System.out.println("showSearchHistory's searchText : " + searchText);
+		
+		Map<String, Object> param = new HashMap();
+		param.put("memberId", memberId);
+		param.put("searchText", searchText);
+		Map<String, Object> result = controller.execute("/member",8, param);
+		//result(검색기록) 추출하기
+		List<String> searchList = (List<String>)result.get("result");
+		
+		
+		// 검색 기록을 보여주는 간단한 창 생성
+		JFrame historyFrame = new JFrame("검색 기록");
+		historyFrame.setSize(400, 300);
+
+		// 검색 기록을 표시하는 JTextArea 생성
+		JTextArea historyTextArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(historyTextArea);
+		scrollPane.setBounds(10, 10, 380, 280);
+
+		// 검색 기록을 JTextArea에 추가
+		if (searchList != null) {
+			for (String history : searchList) {
+				historyTextArea.append(history + "\n");
+			}
+		} else {
+			historyTextArea.setText("검색 기록이 없습니다.");
+		}
+		// 컴포넌트를 창에 추가
+		historyFrame.add(scrollPane);
+
+		// 창 표시
+		historyFrame.setVisible(true);
+
 	}
 	
 	public void performSearch() {
@@ -233,8 +248,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		
 		if(e.getSource()==btn1) { //로그아웃화면
 			System.out.println("BTN1 CLICK ");
-			loginUI = new LoginUI();
-			loginUI.setVisible(true);
+			loginui = new LoginUI();
+			loginui.setVisible(true);
 			this.setVisible(false);
 		}else if(e.getSource()==btn2) { //QnA화면
 			System.out.println("BTN2 CLICK ");

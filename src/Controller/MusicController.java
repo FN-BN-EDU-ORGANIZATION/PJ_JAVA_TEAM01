@@ -52,12 +52,6 @@ public class MusicController implements SubController{
 			// 뷰로 전달
 		    return result;
 		} 
-//		else if (serviceNo == 3) { 
-//			// 파라미터 추출
-//			// 입력값 검증
-//			// 서비스 실행
-//			// 뷰로 전달
-//		} 
 
 		return null;
 	}

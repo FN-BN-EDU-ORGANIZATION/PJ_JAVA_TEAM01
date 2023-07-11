@@ -33,6 +33,7 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
     
 	private MainGUI maingui;
 	private Log_MainGUI log_maingui;
+	private LoginUI loginui;
 
 
 
@@ -119,14 +120,12 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-            	
-            	maingui = new MainGUI();
-            	maingui.setVisible(true);
-            	
-            	
+            		maingui = new MainGUI();
+            		maingui.setVisible(true);
             }
         });
     }
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -155,26 +154,29 @@ public class BulletinBoardGUI extends JFrame implements ActionListener {
     }
 
 
-		public JLabel ContentLabel() {
-			return ContentLabel;
-		}
-
-		public void ContentLabel(JLabel ContentLabel) {
-			this.ContentLabel = ContentLabel;
-		}
-
-		public void someMethod() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void setMainGUI(MainGUI mainGUI) {
-			this.maingui = maingui;
-			
-		}
+//		public JLabel ContentLabel() {
+//			return ContentLabel;
+//		}
+//
+//		public void ContentLabel(JLabel ContentLabel) {
+//			this.ContentLabel = ContentLabel;
+//		}
+//
+//		public void someMethod() {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		public void setMainGUI(MainGUI mainGUI) {
+//			this.maingui = maingui;
+//			
+//		}
 		
-		public void setLog_MainGUI(Log_MainGUI log_maingui) {
-			this.log_maingui = log_maingui;
-		}
-		
+//		public void setLog_MainGUI(Log_MainGUI log_maingui) {
+//			this.log_maingui = log_maingui;
+//		}
+
+
+
+
     }

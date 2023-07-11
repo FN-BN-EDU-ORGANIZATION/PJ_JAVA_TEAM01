@@ -11,13 +11,9 @@ import javax.swing.table.DefaultTableModel;
 public class FrontController {
 	
 	private Map<String,SubController> map = new HashMap();
-	private MusicController musicController;
-	private List<String> searchHistory;
 
 	public FrontController() {
 		init();
-		musicController = new MusicController();
-		searchHistory = new ArrayList<>();
 	}
 	
 	void init() {
@@ -26,9 +22,6 @@ public class FrontController {
 		map.put("/qna", new QnAController());
 	}
 
-	public List<String> getSearchHistory() {
-		return searchHistory;
-	}
 
 	
 	public Map<String,Object> execute(String request,int ServiceNo ,Map<String,Object> param) {

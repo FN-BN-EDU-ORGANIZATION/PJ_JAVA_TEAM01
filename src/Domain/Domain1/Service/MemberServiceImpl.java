@@ -12,6 +12,7 @@ import src.Domain.Domain1.Dto.MemberDto;
 import src.Domain.Domain1.Service.Auth.Session;
 
 
+
 public class MemberServiceImpl implements MemberService {
 		//세션정보저장
 		public Map<String,Session> sessionMap;
@@ -19,7 +20,7 @@ public class MemberServiceImpl implements MemberService {
 		private MemberDao dao;
 		
 		private Map<String, List<String>> memberSearchHistoryMap;
-		
+	
 		//싱글톤
 		private static MemberService instance;
 		public static MemberService getInstance() {
@@ -30,7 +31,9 @@ public class MemberServiceImpl implements MemberService {
 		public MemberServiceImpl() {
 			dao = MemberDaoImpl.getInstance();
 			sessionMap = new HashMap();
+			
 			memberSearchHistoryMap = new HashMap<>();
+			memberSearchHistoryMap.put("user1", null );
 		}
 		//회원 가입하기
 		@Override
@@ -121,17 +124,22 @@ public class MemberServiceImpl implements MemberService {
 		
 		// 검색 기록 추가
 		@Override
-		public void addSearchHistory(String memberId, String searchText) {
+		public List<String> addSearchHistory(String memberId, String searchText) {
 		    List<String> searchHistory = memberSearchHistoryMap.get(memberId);
-		    if (searchHistory != null) {
-		        searchHistory.add(searchText);
-		    }
+		    if (searchHistory == null) {
+	            searchHistory = new ArrayList<>();
+	            memberSearchHistoryMap.put(memberId, searchHistory);
+	        }
+	        searchHistory.add(searchText);
+	        System.out.println("MemberServiceImpl's addSearchHistory : " + searchHistory);
+	        
+	        return memberSearchHistoryMap.get(memberId);
 		}
 
 		// 검색 기록 조회
 		@Override
 		public List<String> getSearchHistory(String memberId) {
-		    return memberSearchHistoryMap.getOrDefault(memberId, new ArrayList<>());
+			return memberSearchHistoryMap.get(memberId);
 		}
 	    
 		//로그아웃
@@ -157,7 +165,6 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println("[ERROR] 이미 사용중인 아이디입니다.");
 			return false;
 		}
-		
 		
 		//역할반환함수
 		@Override

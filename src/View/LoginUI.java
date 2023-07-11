@@ -40,10 +40,6 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener{
 	Log_MainGUI logmaingui;
 	JoinUI joinUI;
 	
-//	MemberUI membergui;
-//	UserUI usergui;
-	
-
 	
 	public LoginUI(){
 		super("LOGIN");
@@ -101,11 +97,8 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener{
 		addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-            	
             	maingui = new MainGUI();
             	maingui.setVisible(true);
-            	
-            	
             }
         });
 		
@@ -173,11 +166,14 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener{
 	}
 	
 	
+//	public String setUserName(String username) {
+//		logmaingui.label.setText(username+"님, 자유롭게 음악을 검색해보세요!");
+//		return username;
+//	}
+	
+	
 	public void setMainGUI(MainGUI maingui) {
 		this.maingui = maingui;
-//		membergui.setMainUI(maingui);
-//		usergui.setMainUI(maingui);
-		
 		
 	}
 
