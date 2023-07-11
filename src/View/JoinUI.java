@@ -115,7 +115,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		setVisible(true);
 		setResizable(false);
 		
-		controller = new FrontController();
+		controller = MainGUI.controller;
 	
 	}
 	
@@ -152,7 +152,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		    param.put("name", name);
 		    param.put("addr", addr);
 		    param.put("phone", phone);
-		    Map<String, Object> result = controller.execute("/member", 2, param, id);
+		    Map<String, Object> result = controller.execute("/member", 2, param);
 		    
 		    //DB에 INSERT
 		    if(result!=null) {
@@ -175,7 +175,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		    Map<String, Object> param = new HashMap();
 		    param.put("id", id);
 		    
-		    Map<String, Object> result = controller.execute("/member", 7, param, id);
+		    Map<String, Object> result = controller.execute("/member", 7, param);
 		    boolean isDuplicate = (boolean)result.get("result");
 		    
 		    if(isDuplicate) {

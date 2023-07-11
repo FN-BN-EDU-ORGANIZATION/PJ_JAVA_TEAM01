@@ -25,15 +25,8 @@ public class FrontController {
 		map.put("/qna", new QnAController());
 	}
 	
-	
-	public void searchTracks(String searchText) {
-        musicController.searchTracks(searchText);
-        searchHistory.add(searchText);
-    }
-	
 	public void openWebpage(String url) {
-		musicController.openWebpage(url);
-		
+		musicController.openWebpage(url);	
 	}
 
 	public List<String> getSearchHistory() {
@@ -44,7 +37,7 @@ public class FrontController {
         return musicController.getTableModel();
     }
 	
-	public Map<String,Object> execute(String uri,int ServiceNo , Map<String,Object>param,String memberId)
+	public Map<String,Object> execute(String uri,int ServiceNo , Map<String,Object>param)
 	{
 		Object controller = map.get(uri);
 		Map<String, Object> result = new HashMap();
@@ -57,36 +50,14 @@ public class FrontController {
 			return result;
 		}else if(controller instanceof MusicController) {
 			MusicController down = (MusicController)controller;
-			if (ServiceNo == 1) { // 검색 기록 추가
-	            String searchText = (String) param.get("searchText");
-	            down.addSearchHistory(memberId, searchText);
-	        } else if (ServiceNo == 2) { // 검색 기록 조회
-	            List<String> searchHistory = down.getUserSearchHistory(memberId);
-	            // 검색 기록 처리 작업
-	        }
-            // 검색 기록 추가
-//            searchHistory.add(searchText);
-            
-            System.out.println("MusicController");
+			result = down.execute(ServiceNo, param);
 			
+			return result;
 		}
 		
 		return param;
 		
 	}
 	
-	 public void processRequest(String command, String searchText, String memberId) {
-	        if (command.equals("searchTracks")) {
-	            musicController.setMemberId(memberId);
-	            musicController.searchTracks(searchText);
-	        } else if (command.equals("openWebpage")) {
-	            musicController.openWebpage(searchText);
-	        } else if (command.equals("getUserSearchHistory")) {
-	            List<String> searchHistory = musicController.getUserSearchHistory(memberId);
-	            // 검색 기록 처리
-	        } else if (command.equals("addSearchHistory")) {
-	            musicController.addSearchHistory(memberId, searchText);
-	        }
-	    }
 
 }

@@ -18,6 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import src.Controller.FrontController;
+import src.View.MainGUI;
 
 
 public class LoginUI extends JFrame implements ActionListener, KeyListener{
@@ -87,7 +88,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener{
 		setVisible(true);
 		setResizable(false);
 		
-		controller = new FrontController();
+		controller = MainGUI.controller;
 		
 		//joinUI
 		joinUI = new JoinUI();
@@ -126,7 +127,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener{
 			param.put("id", id);
 			param.put("pw", pw);
 			
-			Map<String, Object> result = controller.execute("/member", 5, param, id);
+			Map<String, Object> result = controller.execute("/member", 5, param);
 			if(result!=null) {
 				JOptionPane.showMessageDialog(null,"로그인에 성공했습니다!", "LogIn",JOptionPane.INFORMATION_MESSAGE);
 				logmaingui = new Log_MainGUI();

@@ -8,11 +8,15 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import src.Domain.Domain1.Dto.MusicDto;
 
 public class MusicService {
 	
@@ -32,7 +36,8 @@ public class MusicService {
         this.memberService = memberService;
     }
 
-    public void searchTracks(String searchText, String memberId) {
+    public List<MusicDto> searchTracks(String searchText, String memberId) {
+    	List<MusicDto> list = new ArrayList();
         try {
             String apiKey = "354ad741231e3c7ae853e84460461072";
             String encodedTrack = URLEncoder.encode(searchText, "UTF-8");
@@ -49,23 +54,12 @@ public class MusicService {
             JsonNode root = objectMapper.readTree(responseBody);
             JsonNode trackMatches = root.path("results").path("trackmatches").path("track");
 
-            model = new DefaultTableModel(1, 0);
-
-            model.setColumnCount(0);
-            model.setRowCount(0);
-
-            model.addColumn("TITLE");
-            model.addColumn("ARTIST");
-            model.addColumn("URL");
 
             for (JsonNode trackNode : trackMatches) {
                 String name = trackNode.path("name").asText();
                 String artist = trackNode.path("artist").asText();
                 String url = trackNode.path("url").asText();
-
-                Object[] rowData = { name, artist, url };
-                model.addRow(rowData);
-
+                list.add(new MusicDto(name,artist,url));
             }
             
             // 검색 기록 추가
@@ -73,9 +67,13 @@ public class MusicService {
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }
+        //리턴하기
+     
+        return list;
     }
 
-    public void openWebpage(String url) {
+    public List<MusicDto> openWebpage(String url) {
+    	List<MusicDto> list = new ArrayList();
         try {
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(url));
@@ -83,5 +81,7 @@ public class MusicService {
         } catch (IOException | URISyntaxException ex) {
             ex.printStackTrace();
         }
+        list.add(new MusicDto(url));
+        return list;
     }
 }

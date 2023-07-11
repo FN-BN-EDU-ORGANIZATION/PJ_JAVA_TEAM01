@@ -8,7 +8,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
+import src.Domain.Domain1.Dto.MusicDto;
 
 public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
@@ -59,7 +62,7 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		super("MAIN MENU_LOGIN SUCCESS!");
 		setBounds(100, 100, 1000, 400);
 		
-		controller = new FrontController();
+		controller = MainGUI.controller;
 		
 		// 패널
 		JPanel panel = new JPanel();
@@ -164,10 +167,40 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	}
 	
 	public void performSearch() {
-        // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
-		String searchText = txt.getText();
-        controller.searchTracks(searchText);
-        updateTable(controller.getTableModel());
+		// 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
+				String searchText = txt.getText();
+				String memberId = ""; // 사용자의 ID를 설정해야 하는 경우 해당 변수에 ID 값을 할당
+
+				// controller.processRequest("searchTracks", searchText, memberId);
+				Map<String, Object> param = new HashMap();
+				param.put("searchText", searchText);
+				param.put("memberId", memberId);
+
+				Map<String, Object> result = new HashMap();
+				result = controller.execute("/music", 1, param);
+
+				List<MusicDto> list = (List<MusicDto>) result.get("result");
+
+				// 모델작업
+				DefaultTableModel model = new DefaultTableModel(1, 0);
+				// -----------------
+				model.setColumnCount(0);
+				model.setRowCount(0);
+
+				model.addColumn("TITLE");
+				model.addColumn("ARTIST");
+				model.addColumn("URL");
+
+				for (MusicDto dto : list) {
+
+					Object[] rowData = { dto.getName(), dto.getArtist(), dto.getUrl() };
+					model.addRow(rowData);
+
+				}
+
+				// -----------------
+
+				updateTable(model);
     }
 	@Override
     public void keyPressed(KeyEvent e) {
