@@ -26,6 +26,7 @@ import javax.swing.table.TableColumnModel;
 import src.Controller.FrontController;
 import src.Controller.SubController;
 import src.Domain.Domain1.Dto.MemberDto;
+import src.Domain.Domain1.Dto.MusicDto;
 
 public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
@@ -61,8 +62,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		super("MAIN MENU_LOGIN SUCCESS!");
 		setBounds(100, 100, 1000, 400);
 		
-		controller = new FrontController();
-		
+		controller = maingui.controller;
+				
 		// 패널
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -168,19 +169,41 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 	}
 	
 	public void performSearch() {
-        // 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
-		String searchText = txt.getText();
-        controller.searchTracks(searchText);
-        updateTable(controller.getTableModel());
-    }
-	@Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getSource() == txt) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                btn3.doClick(); // 검색 버튼을 누름
-            }
-        }
-    }
+		// 검색 기능을 실행하기 위해 FrontController의 execute() 메서드 호출
+				String searchText = txt.getText();
+				String memberId = ""; // 사용자의 ID를 설정해야 하는 경우 해당 변수에 ID 값을 할당
+
+				// controller.processRequest("searchTracks", searchText, memberId);
+				Map<String, Object> param = new HashMap();
+				param.put("searchText", searchText);
+				param.put("memberId", memberId);
+
+				Map<String, Object> result = new HashMap();
+				result = controller.execute("/music", 1, param);
+
+				List<MusicDto> list = (List<MusicDto>) result.get("result");
+
+				// 모델작업
+				DefaultTableModel model = new DefaultTableModel(1, 0);
+				// -----------------
+				model.setColumnCount(0);
+				model.setRowCount(0);
+
+				model.addColumn("TITLE");
+				model.addColumn("ARTIST");
+				model.addColumn("URL");
+
+				for (MusicDto dto : list) {
+				
+					Object[] rowData = { dto.getName(), dto.getArtist(), dto.getUrl() };
+					model.addRow(rowData);
+
+				}
+
+				// -----------------
+
+				updateTable(model);
+			}
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -198,7 +221,9 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
             // URL 주소 열 클릭 시 URL 주소 열기
             String url = (String) table.getValueAt(row, 2);
-            controller.openWebpage(url);
+			Map<String, Object> param = new HashMap();
+			param.put("url", url);
+			controller.execute("/music", 2, param);
         }
 	}
     
@@ -332,6 +357,11 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

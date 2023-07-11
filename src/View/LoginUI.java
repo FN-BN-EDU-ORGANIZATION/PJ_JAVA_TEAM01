@@ -90,7 +90,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener{
 		setVisible(true);
 		setResizable(false);
 		
-		controller = new FrontController();
+		controller = maingui.controller;
 		
 		//joinUI
 		joinUI = new JoinUI();

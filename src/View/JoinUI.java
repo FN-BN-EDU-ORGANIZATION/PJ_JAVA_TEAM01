@@ -116,7 +116,7 @@ public class JoinUI extends JFrame implements ActionListener{
 		setVisible(true);
 		setResizable(false);
 		
-		controller = new FrontController();
+		controller = MainGUI.controller;
 	
 	}
 	
