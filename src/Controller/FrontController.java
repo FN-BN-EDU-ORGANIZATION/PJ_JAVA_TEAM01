@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class FrontController {
 	
-	private Map<String,Object> map = new HashMap();
+	private Map<String,SubController> map = new HashMap();
 	private MusicController musicController;
 	private List<String> searchHistory;
 
@@ -30,29 +30,13 @@ public class FrontController {
 		return searchHistory;
 	}
 
-//    public DefaultTableModel getTableModel() {
-//        return musicController.getTableModel();
-//    }
 	
-	public Map<String,Object> execute(String uri,int ServiceNo , Map<String,Object>param)
-	{
-		Object controller = map.get(uri);
-		Map<String, Object> result = new HashMap();
+	public Map<String,Object> execute(String request,int ServiceNo ,Map<String,Object> param) {
+		SubController controller = map.get(request);
 		
-		if(controller instanceof MemberController) {
-			
-			MemberController down = (MemberController)controller;
-			result = down.execute(ServiceNo, param);	
-			System.out.println("MemberController");
-			return result;
-		}else if(controller instanceof MusicController) {
-			MusicController down = (MusicController)controller;
-			result = down.execute(ServiceNo, param);
-			
-			return result;
-		}
-		
-		return param;
+		Map<String,Object> result = new HashMap();
+		result = controller.execute(ServiceNo, param);
+		return result;
 		
 	}
 	

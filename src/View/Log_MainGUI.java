@@ -24,14 +24,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import src.Controller.FrontController;
-import src.Controller.SubController;
-import src.Domain.Domain1.Dto.MemberDto;
 import src.Domain.Domain1.Dto.MusicDto;
 
 public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
 
 
 	private FrontController controller;
+	private BulletinBoardGUI bulletinBoardGUI;
 	
 	JTable table;
 	JScrollPane tableScroll;
@@ -121,6 +120,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		
+		bulletinBoardGUI = new BulletinBoardGUI();
 		
 		//
 		
@@ -237,6 +238,8 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 			this.setVisible(false);
 		}else if(e.getSource()==btn2) { //QnA화면
 			System.out.println("BTN2 CLICK ");
+			bulletinBoardGUI.setVisible(true);
+			this.setVisible(false);
 		}else if(e.getSource()==btn3) { //검색
 			System.out.println("BTN3 CLICK ");
 			performSearch();

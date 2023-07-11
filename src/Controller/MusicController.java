@@ -11,7 +11,7 @@ import src.Domain.Domain1.Service.MemberService;
 import src.Domain.Domain1.Service.MemberServiceImpl;
 import src.Domain.Domain1.Service.MusicService;
 
-public class MusicController {
+public class MusicController implements SubController{
 	private MusicService musicService;
 	private MemberService memberService;
 	private String memberId;
