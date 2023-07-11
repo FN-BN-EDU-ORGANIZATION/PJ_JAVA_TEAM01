@@ -227,7 +227,9 @@ public class Log_MainGUI extends JFrame implements ActionListener, KeyListener, 
 
             // URL 주소 열 클릭 시 URL 주소 열기
             String url = (String) table.getValueAt(row, 2);
-            controller.openWebpage(url);
+			Map<String, Object> param = new HashMap();
+			param.put("url", url);
+			controller.execute("/music", 2, param);
         }
 	}
     

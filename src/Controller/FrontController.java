@@ -24,10 +24,6 @@ public class FrontController {
 		map.put("/music", new MusicController());
 		map.put("/qna", new QnAController());
 	}
-	
-	public void openWebpage(String url) {
-		musicController.openWebpage(url);	
-	}
 
 	public List<String> getSearchHistory() {
 		return searchHistory;

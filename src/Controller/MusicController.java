@@ -47,10 +47,12 @@ public class MusicController {
 			// 입력값 검증
 
 			// 서비스 실행
-		
+			List<MusicDto> list = openWebpage(url);
+		    Map<String, Object> result = new HashMap<>();
+		    result.put("result", list);
 			
 			// 뷰로 전달
-
+		    return result;
 		} else if (serviceNo == 3) {
 			// 파라미터 추출
 			// 입력값 검증
@@ -66,8 +68,8 @@ public class MusicController {
 		musicService.searchTracks(searchText, memberId);
 	}
 
-	public void openWebpage(String url) {
-		musicService.openWebpage(url);
+	public List<MusicDto> openWebpage(String url) {
+		return musicService.openWebpage(url);
 	}
 
 	public DefaultTableModel getTableModel() {
